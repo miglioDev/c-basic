@@ -39,8 +39,8 @@ int patter_check(int vect[])
     int equal = 1,inc = 1,dec = 1,mix = 1,alt = 1;
     for (c = 0; c < dim-1; c++)
     {
-        if (vect[c] < vect[c+1]) inc = 0;
-        if (vect[c] > vect[c+1]) dec = 0;
+        if (vect[c] >= vect[c+1]) inc = 0;
+        if (vect[c] <= vect[c+1]) dec = 0;
         if (vect[c] != vect[c+1]) equal = 0;
 
             if (c > 0) //alt
