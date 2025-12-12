@@ -2,13 +2,13 @@
 
 This repository contains my practice exercises in C.  
 I use it to track my progress, keep my work organized, and get used to working with Git.  
-Each exercise includes a short description of the program and the concepts practiced.
+Each exercise includes a short description of the program and the concepts I practiced.
 
 ---
 
 ## Overview
 This repository documents my progress while learning the C programming language.  
-Every file focuses on one idea at a time to build solid fundamentals through practice.
+Each file contains an individual C programming exercise. 
 
 ---
 
