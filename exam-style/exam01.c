@@ -94,9 +94,48 @@ The main function must:
   * terminate returning 0.
 */
 
+#include <stdio.h>
+#define DIM 10
+#define SENTINEL -1
+
+void digit_counter(int v[DIM], int* q1, int* q2)
+{
+  int i;
+
+  *(q1) = 0;
+  *(q2) = 0;
+
+  for(i = 0; i < DIM && i != SENTINEL; i++)
+  {
+    if(v[i] >= 0 && v[i] <= 9) 
+    *(q1)++;
+
+    if(v[i] > 9 && v[i] < 100) 
+    *(q2)++;
+  }
+}
+
+void add_value(int v[DIM], int* px)
+{
+  int i,len;
+
+  len = 0;
+
+  for(i = DIM; i > 0; i--)
+  {
+    v[i] = v[i-1]; //with pointer 
+  }
+
+}
+
+
+
 int main ()
 {
+  FILE *fp;
+  int v[DIM];
 
 
     return 0;
 }
+
