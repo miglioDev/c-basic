@@ -128,12 +128,47 @@ void add_value(int v[DIM], int* px)
 
 }
 
-
-
-int main ()
+void visual_array(int v[])
 {
+  int i;
+
+  if(i == SENTINEL) 
+    printf("Error- empty array\n");
+  
+  else {
+    for(i = 0; v[i] != SENTINEL; i++)
+    {
+      //index
+    }
+    //value 
+
+
+
+  }
+
+}
+
+
+
+int main (int argc, char* argv[])
+{
+  if(argv != 2)
+  {
+      printf("Error: fun need one parameter as input (file-name)\n");
+      exit(1);
+  }
   FILE *fp;
   int v[DIM];
+
+  fopen(argv[1], "r");
+  if(fp == NULL) {
+    printf("Error: file %s does not exist\n",argv[1]);
+    exit(2);}
+
+  printf(""); //ask value for fule Search
+  
+  fclose(fp);
+  visual_array(v);
 
 
     return 0;
