@@ -98,6 +98,52 @@ The main function must:
 #define DIM 10
 #define SENTINEL -1
 
+int load_vect(int v[], int x, FILE* fp)
+{
+  int i,value,output;
+
+  i = 0;
+  while(fscan(fp, "%d", &value) == 1 && i < DIM-1 )
+  {
+    if(value > 0 && value%x == 0)
+    {
+      v[i] = value;
+      i++;
+    }
+  }
+  v[i] == SENTINEL;
+
+  if(i == DIM-1)
+      output = 1;
+      else 
+        output = 0;
+  
+  return output; 
+}
+
+void visual_array(int v[])
+{
+  int i;
+
+  if(i == SENTINEL) 
+    printf("Error- empty array\n");
+  
+  else {
+    printf("Index:\t");
+    for(i = 0; v[i] != SENTINEL; i++)
+    {
+      printf("%d\t",i);
+    }
+    printf("\nValue:\t");
+    
+    for(i = 0; v[i] != SENTINEL; i++)
+    {
+      printf("%d\t",i);
+    }
+    printf("\n");
+  }
+}
+
 void digit_counter(int v[DIM], int* q1, int* q2)
 {
   int i;
@@ -123,31 +169,10 @@ void add_value(int v[DIM], int* px)
 
   for(i = DIM; i > 0; i--)
   {
-    v[i] = v[i-1]; //with pointer 
+    v[i] = v[i-1]; 
   }
 
 }
-
-void visual_array(int v[])
-{
-  int i;
-
-  if(i == SENTINEL) 
-    printf("Error- empty array\n");
-  
-  else {
-    for(i = 0; v[i] != SENTINEL; i++)
-    {
-      //index
-    }
-    //value 
-
-
-
-  }
-
-}
-
 
 
 int main (int argc, char* argv[])
@@ -158,18 +183,20 @@ int main (int argc, char* argv[])
       exit(1);
   }
   FILE *fp;
-  int v[DIM];
+  int v[DIM],x,sing_digit,doub_digit;
 
   fopen(argv[1], "r");
   if(fp == NULL) {
     printf("Error: file %s does not exist\n",argv[1]);
     exit(2);}
 
-  printf(""); //ask value for fule Search
-  
+  printf("\nEnter a number to search in the file: "); 
+  scanf("%d", &x);
+  load_vect(v,x,fp);
   fclose(fp);
-  visual_array(v);
 
+  visual_array(v);
+  digit_counter(v,&sing_digit,&doub_digit);
 
     return 0;
 }
