@@ -155,10 +155,10 @@ void digit_counter(int v[DIM], int* q1, int* q2)
   for(i = 0; i < DIM && v[i] != SENTINEL; i++)
   {
     if(v[i] >= 0 && v[i] <= 9) 
-    *(q1)++;
+    (*q1)++;
 
     if(v[i] > 9 && v[i] < 100) 
-    *(q2)++;
+    (*q2)++;
   }
 }
 
