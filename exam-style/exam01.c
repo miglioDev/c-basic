@@ -95,6 +95,7 @@ The main function must:
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #define DIM 10
 #define SENTINEL -1
 
@@ -103,7 +104,7 @@ int load_vect(int v[], int x, FILE* fp)
   int i,value,output;
 
   i = 0;
-  while(fscan(fp, "%d", &value) == 1 && i < DIM-1 )
+  while(fscanf(fp, "%d", &value) == 1 && i < DIM-1 )
   {
     if(value > 0 && value%x == 0)
     {
@@ -111,7 +112,7 @@ int load_vect(int v[], int x, FILE* fp)
       i++;
     }
   }
-  v[i] == SENTINEL;
+  v[i] = SENTINEL;
 
   if(i == DIM-1)
       output = 1;
@@ -125,7 +126,7 @@ void visual_array(int v[])
 {
   int i;
 
-  if(i == SENTINEL) 
+  if(v[0] == SENTINEL) 
     printf("Error- empty array\n");
   
   else {
@@ -138,7 +139,7 @@ void visual_array(int v[])
     
     for(i = 0; v[i] != SENTINEL; i++)
     {
-      printf("%d\t",i);
+      printf("%d\t",v[i]);
     }
     printf("\n");
   }
@@ -148,10 +149,10 @@ void digit_counter(int v[DIM], int* q1, int* q2)
 {
   int i;
 
-  *(q1) = 0;
-  *(q2) = 0;
+  *q1 = 0;
+  *q2 = 0;
 
-  for(i = 0; i < DIM && i != SENTINEL; i++)
+  for(i = 0; i < DIM && v[i] != SENTINEL; i++)
   {
     if(v[i] >= 0 && v[i] <= 9) 
     *(q1)++;
@@ -161,42 +162,58 @@ void digit_counter(int v[DIM], int* q1, int* q2)
   }
 }
 
-void add_value(int v[DIM], int* px)
+void add_value(int v[DIM], int number)
 {
   int i,len;
 
   len = 0;
+  while(*(v+len) != SENTINEL)
+  len ++;
 
-  for(i = DIM; i > 0; i--)
+  for(i = len+1; i > 0; i--)
   {
-    v[i] = v[i-1]; 
+    *(v+i) = *(v+i-1); 
   }
-
+  *v = number;
 }
 
 
 int main (int argc, char* argv[])
 {
-  if(argv != 2)
+  if(argc != 2)
   {
-      printf("Error: fun need one parameter as input (file-name)\n");
+      printf("Error: function need one parameter as input (file-name)\n");
       exit(1);
   }
   FILE *fp;
-  int v[DIM],x,sing_digit,doub_digit;
+  int v[DIM],x,sing_digit,doub_digit,is_full,number;
 
-  fopen(argv[1], "r");
+  fp = fopen(argv[1], "r");
   if(fp == NULL) {
     printf("Error: file %s does not exist\n",argv[1]);
     exit(2);}
 
   printf("\nEnter a number to search in the file: "); 
   scanf("%d", &x);
-  load_vect(v,x,fp);
+  is_full = load_vect(v,x,fp);
   fclose(fp);
 
   visual_array(v);
+
   digit_counter(v,&sing_digit,&doub_digit);
+  printf("\nSingle digit number: %d\n",sing_digit);
+  printf("Double digit number: %d\n",doub_digit);
+
+  if(is_full) {
+    printf("\nError - vector is full\n"); 
+    exit(3); }
+  else {
+    printf("Enter an int: ");
+    scanf("%d",&number);
+
+    add_value(v,number);
+    visual_array(v);
+  }
 
     return 0;
 }
