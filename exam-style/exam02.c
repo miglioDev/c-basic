@@ -103,7 +103,7 @@ void letter_counter(char v[],int *cap_letter, int *other_counter)
     }
 }
 
-int consective_char(char v[])
+int consecutive_char(char v[])
 {
     int con = 0,i,len;
     len = strlen(v);
@@ -123,12 +123,16 @@ void write_string_onfile(char v[], char text[])
     int i,len;
 
     fp = fopen(text, "w");
+    if(fp == NULL) {
+        printf("ERROR opening file\n");
+        return;
+    }
     len = strlen(v);
 
     fprintf(fp, "Index\tletter\n");
     for(i = 0; i < len; i++)
     {
-        fprintf(fp, "%d\t%c", i,v[i]);
+        fprintf(fp, "%d\t%c\n", i,v[i]);
     }
 
     fclose(fp);
@@ -153,14 +157,14 @@ int main (int argc, char *argv[])
     printf("Capital letter: %d\n", cap_letter);
     printf("Other letter: %d\n", other_letter);
 
-    equal_c = consective_char(v);
+    equal_c = consecutive_char(v);
     if(equal_c) {
         printf("There are two or more consecutive identical char\n"); }
         else
         printf("There are not two or more consecutive identical char\n");
 
     write_string_onfile(v,argv[1]);
-    
+
     return 0;
 }
 
