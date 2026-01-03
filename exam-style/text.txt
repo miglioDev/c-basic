@@ -1,0 +1,2 @@
+Index	letter
+0	N1	I2	c3	e4	w5	o6	r7	k8	!

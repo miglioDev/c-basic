@@ -111,12 +111,28 @@ int consective_char(char v[])
     for(i = 0; i < len-1; i++)
     {
         if(*(v+i) ==  *(v+i+1)) {
-            con = 1; }      //v[i] == v[i+1]
+            con = 1; }    
     }
 
     return con;
 }
 
+void write_string_onfile(char v[], char text[])
+{
+    FILE *fp;
+    int i,len;
+
+    fp = fopen(text, "w");
+    len = strlen(v);
+
+    fprintf(fp, "Index\tletter\n");
+    for(i = 0; i < len; i++)
+    {
+        fprintf(fp, "%d\t%c", i,v[i]);
+    }
+
+    fclose(fp);
+}
 
 int main (int argc, char *argv[])
 {
@@ -143,6 +159,8 @@ int main (int argc, char *argv[])
         else
         printf("There are not two or more consecutive identical char\n");
 
+    write_string_onfile(v,argv[1]);
+    
     return 0;
 }
 
