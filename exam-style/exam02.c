@@ -62,8 +62,87 @@ Implement the following functions and a main program
 * Returns `0`.
 */
 
-int main ()
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+#define DIM 30
+
+void load_string(char v[])
 {
+    int cond1,cond2,len;
+
+    do
+    {
+    printf("\nEnter a string: ");
+    scanf("%s", v);
+    
+    cond1 = 0;
+    cond2 = 0;
+    len = strlen(v);
+    cond2 = len >= 5;
+    cond1 = (isupper(v[0])) && (isupper(v[1]));
+
+    if(!cond1 || !cond2) printf("ERROR string must be at least 5 char && must start with two capital letters\n");
+    }
+    while(!cond1 || !cond2);
+}
+
+void letter_counter(char v[],int *cap_letter, int *other_counter)
+{
+    int i,len;
+    len = strlen(v);
+
+    for(i = 0; i < len; i++)
+    {
+        if(isalpha(v[i]) && isupper(v[i])) {
+            (*cap_letter)++;
+        }
+        else 
+            (*other_counter)++;
+    }
+}
+
+int consective_char(char v[])
+{
+    int con = 0,i,len;
+    len = strlen(v);
+
+    for(i = 0; i < len-1; i++)
+    {
+        if(*(v+i) ==  *(v+i+1)) {
+            con = 1; }      //v[i] == v[i+1]
+    }
+
+    return con;
+}
+
+
+int main (int argc, char *argv[])
+{
+    if(argc != 2)
+    {
+        printf("ERROR - program need one parameter only (filename)\n");
+        exit(1);
+    }
+
+    char v[DIM];
+    int cap_letter = 0,other_letter = 0,equal_c;
+
+    load_string(v);
+    printf("\nString:\t%s",v);
+
+    letter_counter(v,&cap_letter,&other_letter);
+    printf("\n== String Stats ==\n");
+    printf("Capital letter: %d\n", cap_letter);
+    printf("Other letter: %d\n", other_letter);
+
+    equal_c = consective_char(v);
+    if(equal_c) {
+        printf("There are two or more consecutive identical char\n"); }
+        else
+        printf("There are not two or more consecutive identical char\n");
 
     return 0;
 }
+
