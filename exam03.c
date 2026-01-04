@@ -157,16 +157,40 @@ int load_string(char m[][DIM], char *argv[])
     return result;
 }
 
+void visual_vector(char m[][DIM], int copied)
+{
+    int i;
+    for(i = 0; i < copied; i++)
+    {
+        printf("%d:%s\t",i, m[i]);
+        if(i > 0 && (i+1)%3 == 0) printf("\n");
+    }
+}
+
+void char_finder(char m[][DIM],char c,int copied, int *p1, int *p2)
+{
+    int i;
+    (*p1) = -1;
+    (*p2) = -1;
+
+    for(i = 0; i < copied && (*p1 == -1 || *p2 == -1); i++)
+    {
+        if(strchr(m[i], c) != NULL ) {
+            if(*p1 == -1) *p1 = i;
+                else 
+                *p2 = i; }
+    }
+}
 
 
 int main (int argc, char *argv[])
 {
-    int copied;
+    int copied, x,y;
     if(argc != 2) {
         printf("Error: file name missing\n");
         exit(1); }
     
-    char m[R][DIM];
+    char m[R][DIM], c;
 
     copied = load_string(m,argv);
     if(copied == -1) {
@@ -177,7 +201,19 @@ int main (int argc, char *argv[])
         printf("Error: file does not contain any string\n");
         exit(3);}
 
-        
+    visual_vector(m,copied);
+
+    printf("\nEnter a char: ");
+    scanf("%c", &c);
+    char_finder(m,c,copied,&x,&y);
+
+    if(x == y) 
+        printf("\nThe char is present only at %d row", x);
+    if(x != y)
+        printf("\nThe char is present in %d and %d rows", x,y);
+    if(x == -1)
+        printf("\nThe char is not present\n");
+
 
     return 0; 
 }
