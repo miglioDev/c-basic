@@ -120,12 +120,64 @@ Calls again the function to display the array.
 
 Returns 0. */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
+#define DIM 30
+#define R 10
 
-int main ()
+int load_string(char m[][DIM], char *argv[])
 {
+    int result,cond1,cond2,counter = 0,len; 
+    char name[DIM];
 
+    FILE *fp;
+    fp = fopen(argv[1], "r");
+
+    if(fp == NULL) {
+        result = -1; }
+    else{
+    while(fscanf(fp ,"%s", name) != EOF )
+    {
+        len = strlen(name)-1; 
+
+        cond1 = (name[0] == 'A' || name[0] == 'E' || name[0] == 'I' || name[0] == 'O' || name[0] == 'U');
+        cond2 = (name[len] == 'a' || name[len] == 'e' || name[len] == 'i' || name[len] == 'o' || name[len] == 'u');
+
+        if(cond1 && cond2 && counter < R) {
+            strcpy(m[counter], name);
+            counter++;
+        }
+
+        result = counter;
+    }}
+
+    fclose(fp);
+    return result;
+}
+
+
+
+int main (int argc, char *argv[])
+{
+    int copied;
+    if(argc != 2) {
+        printf("Error: file name missing\n");
+        exit(1); }
+    
+    char m[R][DIM];
+
+    copied = load_string(m,argv);
+    if(copied == -1) {
+        printf("Error: file does not exist\n");
+        exit(2);}
+
+    if(copied == 0) {
+        printf("Error: file does not contain any string\n");
+        exit(3);}
+
+        
 
     return 0; 
 }
