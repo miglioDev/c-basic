@@ -182,6 +182,23 @@ void char_finder(char m[][DIM],char c,int copied, int *p1, int *p2)
     }
 }
 
+void shift_func(char (*m)[DIM], int *p_copied)
+{
+    int i;
+    for(i = *(p_copied); i > 0; i--)
+    {
+        char name[DIM];
+
+        strcpy(name,m[*(p_copied)-1]); //m[last]
+
+        for(i = *(p_copied)-1; i > 0; i--)
+        {
+            strcpy(*(m+i), *(m+i-1));
+            strcpy(*m, name);
+        }
+    }
+}
+
 
 int main (int argc, char *argv[])
 {
@@ -208,12 +225,14 @@ int main (int argc, char *argv[])
     char_finder(m,c,copied,&x,&y);
 
     if(x == y) 
-        printf("\nThe char is present only at %d row", x);
+        printf("\nThe char is present only at %d row\n", x);
     if(x != y)
-        printf("\nThe char is present in %d and %d rows", x,y);
+        printf("\nThe char is present in row %d and row %d\n", x,y);
     if(x == -1)
         printf("\nThe char is not present\n");
 
+    shift_func(m,&copied);
+    visual_vector(m,copied);
 
     return 0; 
 }
