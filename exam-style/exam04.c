@@ -179,9 +179,47 @@ void printf_matrix( int dim, int m[dim][dim])
     }
 }
 
+void stats_matrix(int dim, int (*m)[dim], float *p1, float *p2)
+{
+    int i,j;
 
+    for(j = 0; j < dim;j++)
+    {
+        *p1 = *p1 + *((*m)+j);
+    }
+    for(i = 1; i < dim; i++)
+        {
+             *p1 = *p1 + *(*(m+i)); 
+        }
 
-int main (int argc, char *argv[]) //launch with ./a number + text
+    *p2  = *p1/(dim*2-1);
+}
+
+int file_copy(int dim, int m[][dim], int row_copy, char *argv[])
+{
+    int result,i,j;
+    if(row_copy > dim) {
+        result = 0;
+        exit(0); }
+    
+    FILE *fp;
+    fp = fopen(argv[2], "w");
+
+    for(i = 0; i < row_copy; i++)
+    {
+        for(j = 0; j < dim; j++)
+        {
+        fprintf(fp, "\t%d", m[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+    result = 1;
+    fclose(fp);
+    
+    return result;
+}
+
+int main (int argc, char *argv[]) 
 {
     if(argc != 3) {
         printf("Error: number of input incorrect\n"); 
@@ -189,10 +227,24 @@ int main (int argc, char *argv[]) //launch with ./a number + text
     
     int c = atoi(argv[1]);
 
-    int m[c][c];
+    int m[c][c],row_copy,res;
+    float average,sum = 0;
+
     load_matrix(c,m);
     printf_matrix(c,m);
+    stats_matrix(c,m,&sum,&average);
+        
+    printf("\nThe sum of the row 0 and column 0 is: %f",sum);
+    printf("\nThe average of the elements is: %f",average);
 
+    printf("\nEnter the number of row you need to copy: ");
+    scanf("%d",&row_copy);
+
+    res = file_copy(c,m,row_copy,argv);
+    if(res == 0) {
+        printf("\nError: copy on file failed\n"); }
+        else {
+            printf("File copied successfully\n");}
 
     return 0;
 }
