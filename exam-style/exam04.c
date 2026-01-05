@@ -126,10 +126,72 @@ Otherwise, it displays
 “file copy completed successfully” and returns 0.
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 
-int main ()
+void load_matrix( int dim, int m[dim][dim])
 {
+    int x,ok,i,j;
+    do 
+    {
+    printf("\nEnter number (x) for matrix loading: "); 
+    scanf("%d",&x);
+    ok = (x > 0 && x < 10);
+    if(!ok) printf("\nError: not correct value");
+    }
+    while(!ok);
+
+    int counter = 1;
+    for(i = 0; i < dim; i++)
+    {
+        for(j = 0; j < dim; j++)
+        {
+            m[i][j] = counter*x;
+            counter++;
+        }
+    }
+}
+
+void printf_matrix( int dim, int m[dim][dim])
+{
+    int i,j;
+
+    printf("\n\t");
+    for(i = 0; i < dim; i++)
+    {
+        printf("\t%d",i);
+    }
+    printf("\n\t");
+    for(i = 0; i < dim; i++)
+    {
+        printf("\t*");
+    }
+    
+    printf("\n");
+    for(i = 0; i < dim; i ++)
+    {
+        printf("%d\t*",i);
+        for(j = 0; j < dim; j++)
+        {
+            printf("\t%d",m[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
+
+int main (int argc, char *argv[]) //launch with ./a number + text
+{
+    if(argc != 3) {
+        printf("Error: number of input incorrect\n"); 
+        exit(1); }
+    
+    int c = atoi(argv[1]);
+
+    int m[c][c];
+    load_matrix(c,m);
+    printf_matrix(c,m);
 
 
     return 0;
