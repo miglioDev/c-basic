@@ -65,7 +65,6 @@ a	0	1
 e	2	4
 o	3	-1
 u	-1	-1
-
 Does not return any value.
 
 A function that, using pointer arithmetic:
@@ -79,7 +78,6 @@ Example:
 0: Anna  1: Elisa  2: Adele  3: Omero  4: Enea
 -->
 0: Enea  1: Anna   2: Elisa  3: Adele  4: Omero
-
 
 Does not return any value.
 
