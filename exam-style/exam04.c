@@ -199,11 +199,11 @@ int file_copy(int dim, int m[][dim], int row_copy, char *argv[])
 {
     int result,i,j;
     if(row_copy > dim) {
-        result = 0;
-        exit(0); }
+        result = 0; }
     
     FILE *fp;
     fp = fopen(argv[2], "w");
+    if(fp == NULL) return 0;
 
     for(i = 0; i < row_copy; i++)
     {
@@ -226,6 +226,7 @@ int main (int argc, char *argv[])
         exit(1); }
     
     int c = atoi(argv[1]);
+    if(c <= 0) exit(1);
 
     int m[c][c],row_copy,res;
     float average,sum = 0;
