@@ -144,10 +144,71 @@ The `main` function must:
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-int main ()
+int dim;
+
+void load_matrix(int dim, int mat[][dim], int min_value, int max_value)
 {
+    int i,j;
+    srand(time(NULL));
 
+    for(i = 0; i < dim; i++)
+    {
+        for(j = 0; j < dim; j++)
+        {
+            mat[i][j] = rand()%(max_value - min_value);
+        }
+    }
+}
+
+void print_matrx(int mat[][dim])
+{
+    int i,j;
+
+    for(i = 0; i < dim; i++)
+    {
+        printf("%d\t*",i);
+        for(j = 0; j < dim; j++)
+        {
+            printf("\t%d",mat[i][j]);
+        }
+        printf("\n");
+    }
+
+    for(j = 0; j < dim; j++)
+    {   
+        printf("*");    
+    }
+    printf("\n\t\t");
+    
+    for(j = 0; j < dim; j++)
+    {   
+        printf("%d\t",j);    
+    }
+}
+
+
+int main (int argc, char *argv[]) // ./a dim min_value max_value text_filename
+{
+    if(argc != 5) {
+        printf("Error: number of parameter incorrect\n");
+        exit(1); }
+    
+    if(atoi(argv[1]) < 2) {
+        printf("Error: incorrect value\n"); 
+        exit(2); }
+    
+    if(atoi(argv[2]) <= 0 || atoi(argv[2]) >= atoi(argv[3])) {
+        printf("Error: incorrect value\n");
+        exit(3); }
+
+    int dim = atoi(argv[1]);
+    int mat[dim][dim];
+
+    load_matrix(dim, mat, atoi(argv[2]), atoi(argv[3]));
+    print_matrx(mat);
 
     return 0;
 }
