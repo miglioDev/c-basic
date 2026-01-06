@@ -163,7 +163,7 @@ void load_matrix(int dim, int mat[][dim], int min_value, int max_value)
     }
 }
 
-void print_matrx(int mat[][dim])
+void print_matrix(int mat[][dim])
 {
     int i,j;
 
@@ -176,10 +176,11 @@ void print_matrx(int mat[][dim])
         }
         printf("\n");
     }
+    printf("\t\t");
 
     for(j = 0; j < dim; j++)
     {   
-        printf("*");    
+        printf("*\t");    
     }
     printf("\n\t\t");
     
@@ -189,6 +190,35 @@ void print_matrx(int mat[][dim])
     }
 }
 
+void sum_func(int mat[][dim], int *p1, int *p2)
+{
+    int i,j;
+
+    *p1 = 0;
+    *p2 = 1;   
+
+    for(i = 0; i < dim; i++)
+    {
+        for(j = 0; j < dim; j++)
+        {
+            if((i == 0 && j == 0) || (i == dim || j == 0) || (i == 0 || j == dim) || (i == 0 && j == 0))
+            {
+                *p1 = *p1 + *(*(mat+i)+j);
+                *p2 = *p2 * *(*(mat+i)+j);
+            }
+        }
+    }
+}
+
+void file_print(int mat[][dim], char *argv[])
+{
+    FILE *fp;
+    fp = fopen(argv[4],"w");
+
+    fprintf(fp,"%d\t%d\n%d\t%d",mat[0][0],mat[0][dim-1],mat[dim-1][0],mat[dim-1][dim-1]);
+
+    fclose(fp);
+}
 
 int main (int argc, char *argv[]) // ./a dim min_value max_value text_filename
 {
@@ -204,11 +234,16 @@ int main (int argc, char *argv[]) // ./a dim min_value max_value text_filename
         printf("Error: incorrect value\n");
         exit(3); }
 
-    int dim = atoi(argv[1]);
-    int mat[dim][dim];
+    dim = atoi(argv[1]);
+    int mat[dim][dim], sum, product;
 
     load_matrix(dim, mat, atoi(argv[2]), atoi(argv[3]));
-    print_matrx(mat);
+    print_matrix(mat);
+    sum_func(mat,&sum,&product);
+    printf("\nSum equal to: %d",sum);
+    printf("\nProduct: %d\n",product);
+
+    file_print(mat,argv);
 
     return 0;
 }
