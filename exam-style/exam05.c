@@ -151,14 +151,17 @@ int dim;
 
 void load_matrix(int dim, int mat[][dim], int min_value, int max_value)
 {
-    int i,j;
+    int i,j,min, max;
     srand(time(NULL));
+
+    min = min_value + 1;
+    max = max_value - 1;
 
     for(i = 0; i < dim; i++)
     {
         for(j = 0; j < dim; j++)
         {
-            mat[i][j] = rand()%(max_value - min_value);
+            mat[i][j] = min + rand()%(max - min + 1);
         }
     }
 }
@@ -201,7 +204,7 @@ void sum_func(int mat[][dim], int *p1, int *p2)
     {
         for(j = 0; j < dim; j++)
         {
-            if((i == 0 && j == 0) || (i == dim || j == 0) || (i == 0 || j == dim) || (i == 0 && j == 0))
+            if((i == 0 && j == 0) || (i == dim-1 && j == 0) || (i == 0 && j == dim-1) || (i == dim-1 && j == dim-1))
             {
                 *p1 = *p1 + *(*(mat+i)+j);
                 *p2 = *p2 * *(*(mat+i)+j);
@@ -214,6 +217,9 @@ void file_print(int mat[][dim], char *argv[])
 {
     FILE *fp;
     fp = fopen(argv[4],"w");
+
+    if(fp == NULL) {
+        printf("Error: error on file opening\n");}
 
     fprintf(fp,"%d\t%d\n%d\t%d",mat[0][0],mat[0][dim-1],mat[dim-1][0],mat[dim-1][dim-1]);
 
