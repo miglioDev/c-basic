@@ -135,14 +135,56 @@ void load_pw_on_file(char s[DIM], char *argv[])
 {
     FILE *fp;
     fp = fopen(argv[1],"w"); 
+    if(fp == NULL) {
+        printf("Error: on file opening\n");}
 
-    int i;
+    int i,len;
+    len = strlen(s);
     char k;
-    //swap even/odd
 
+    for(i = 1; i < len; i++)
+    {
+        k = *(s+i-1);
+        *(s+i-1) = *(s+i);
+        *(s+i) = k;
+        i++;
+    }
+
+    fprintf(fp, "%s",s);
+    fclose(fp);
 }
 
+int comfirm_pw(char *argv[])
+{
+    FILE *fp;
+    fp = fopen(argv[1], "r");
+    char s[DIM];
+    fgets(s,DIM,fp);
 
+    int result = 0; 
+
+    int i,len;
+    len = strlen(s);
+    char k;
+
+    for(i = 1; i < len; i++)
+    {
+        k = s[i];
+       s[i]= s[i-1];
+        s[i-1] = k;
+        i++;
+    }
+
+    char confirm[DIM];
+    printf("\nConfirm the password: ");
+    scanf(" %s",confirm);
+
+    if(strcmp(s,confirm) == 0) { 
+        result = 1; } 
+
+    fclose(fp);
+    return result;
+}
 
 int main (int argc, char *argv[])
 {
@@ -151,7 +193,7 @@ int main (int argc, char *argv[])
         exit(1); }
     
     char s[DIM];
-    int str;
+    int str,result;
 
     load_string(s);
     str = strong_pw(s);
@@ -159,6 +201,14 @@ int main (int argc, char *argv[])
     printf("\nThe pw is strong"); }
         else 
         printf("\nThe pw is not strong");
+
+    load_pw_on_file(s,argv);
+    result = comfirm_pw(argv);
+    
+    if(result) {
+    printf("\nPw is correct!"); }
+        else {
+            printf("Pw is incorrect\n");}
 
     return 0;
 }
