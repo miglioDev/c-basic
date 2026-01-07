@@ -90,11 +90,75 @@ Examples:
 
 */
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#define DIM 30
 
-int main ()
+void load_string(char s[DIM])
 {
+    int len;
 
+    do
+    {
+        printf("\nEnter a password: ");
+        scanf(" %s",s);
+
+        len = strlen(s);
+        if(len %2 == 1) 
+            printf("\nError: pw must be even (lengh)\n");
+    }
+    while( len %2 == 1 );
+}
+
+int strong_pw(char s[DIM])
+{
+    int i,len,res = 0,cond1 = 0,cond2 = 0;
+    len = strlen(s);
+
+    for(i = 0; i < len; i++)
+    {
+        if(isdigit(s[i])) {
+             cond1 = 1; }
+        if(isalpha(s[i])) {
+            cond2 = 1; }
+
+        if(cond1 && cond2) {
+            res = 1; }
+    }
+
+    return res;
+}
+
+void load_pw_on_file(char s[DIM], char *argv[])
+{
+    FILE *fp;
+    fp = fopen(argv[1],"w"); 
+
+    int i;
+    char k;
+    //swap even/odd
+
+}
+
+
+
+int main (int argc, char *argv[])
+{
+    if(argc != 2) {
+        printf("Error: invalid input\n");
+        exit(1); }
+    
+    char s[DIM];
+    int str;
+
+    load_string(s);
+    str = strong_pw(s);
+    if(str) {
+    printf("\nThe pw is strong"); }
+        else 
+        printf("\nThe pw is not strong");
 
     return 0;
 }
