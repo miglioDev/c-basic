@@ -96,7 +96,7 @@ Examples:
 #include <ctype.h>
 #define DIM 30
 
-void load_string(char s[DIM])
+void load_string(char s[])
 {
     int len;
 
@@ -123,11 +123,11 @@ int strong_pw(char s[DIM])
              cond1 = 1; }
         if(isalpha(s[i])) {
             cond2 = 1; }
-
-        if(cond1 && cond2) {
-            res = 1; }
     }
 
+    if(cond1 && cond2) {
+        res = 1; }
+        
     return res;
 }
 
@@ -142,7 +142,7 @@ void load_pw_on_file(char s[DIM], char *argv[])
     len = strlen(s);
     char k;
 
-    for(i = 1; i < len; i++)
+    for(i = 1; i < len; i++) //while (i < len -1) i = i+2 
     {
         k = *(s+i-1);
         *(s+i-1) = *(s+i);
@@ -159,7 +159,7 @@ int comfirm_pw(char *argv[])
     FILE *fp;
     fp = fopen(argv[1], "r");
     char s[DIM];
-    fgets(s,DIM,fp);
+    fscanf(fp, "%s", s);
 
     int result = 0; 
 
