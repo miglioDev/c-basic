@@ -119,11 +119,11 @@ The `main` function must:
 #include <ctype.h>
 #define DIM 30
 
-int load_file(char s[][DIM], char *argv[])
+int load_file(char s[][DIM], char *file_name)
 {
     int cond1,cond2,len,copied_counter = 0;
     FILE *fp;
-    fp = fopen(argv[1], "r"); 
+    fp = fopen(file_name, "r"); 
 
     if(fp == NULL) {
         copied_counter = -1; }
@@ -211,7 +211,7 @@ int main (int argc, char *argv[])
     char s[DIM][DIM];
     int copied,capital,lower_case;
 
-    copied = load_file(s,argv);
+    copied = load_file(s,argv[1]);
     if(copied == -1) {
         printf("Error: file missing\n");
         exit(2); }
@@ -222,6 +222,8 @@ int main (int argc, char *argv[])
     
     visual_vect(s,copied);
     string_stats(s,copied,&capital,&lower_case);
+    printf("\nTotal vocal lower case: %d", lower_case);
+    printf("\nTotal upper case: %d\n", capital);
 
     shift_vec(s,copied);
     visual_vect(s,copied);
