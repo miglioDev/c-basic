@@ -116,6 +116,7 @@ The `main` function must:
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 #define DIM 30
 
 int load_file(char s[][DIM], char *argv[])
@@ -139,7 +140,6 @@ int load_file(char s[][DIM], char *argv[])
 
             cond2 = (buffer[len-1] == 'a' || buffer[len-1] == 'e' || buffer[len-1] == 'i' || buffer[len-1] == 'o' || buffer[len-1] == 'u');
 
-            printf("%s\t- condition -%d - %d ",buffer, cond1,cond2); //to check and fix temporary
             if(cond1 && cond2) {
             strcpy(s[copied_counter], buffer);
             copied_counter++; }
@@ -151,6 +151,57 @@ int load_file(char s[][DIM], char *argv[])
     return copied_counter;
 }
 
+void visual_vect(char s[][DIM], int copied)
+{
+    int i;
+    
+    printf("\nIndex:\t");
+    for(i = 0; i < copied; i++)
+    {
+        printf("%d\t",i);
+    }
+
+    printf("\nString:\t");
+    for(i = 0; i < copied; i++)
+    {
+        printf("%s\t",s[i]);
+    }
+}
+
+void string_stats(char s[][DIM],int copied, int *p1, int *p2)
+{
+    int i,j,len;
+    *p1 = 0;
+    *p2 = 0;
+
+    for(i = 0; i < copied; i++)
+    {
+        len = strlen(s[i]);
+
+        for(j = 0; j < len; j++)
+        {
+            if(s[i][j] == 'A' || s[i][j] == 'E' || s[i][j] == 'I' || s[i][j] == 'O' || s[i][j] == 'U') {
+                (*p1)++; }
+
+            if(s[i][j] == 'a' || s[i][j] == 'e' || s[i][j] == 'i' || s[i][j] == 'o' || s[i][j] == 'u') {
+                (*p2)++; }
+        }
+    }
+}
+
+void shift_vec(char s[][DIM], int copied)
+{
+    int i;
+    char temp[DIM]; 
+
+    strcpy(temp, s[0]);
+    for(i = 0; i < copied-1; i++)
+    {
+        strcpy(s[i], s[i+1]);
+    }
+    strcpy(s[copied-1], temp);
+}
+
 int main (int argc, char *argv[])
 {
     if(argc != 2) {
@@ -158,16 +209,22 @@ int main (int argc, char *argv[])
         exit(1); }
 
     char s[DIM][DIM];
-    int result;
+    int copied,capital,lower_case;
 
-    result = load_file(s,argv);
-    if(result == -1) {
+    copied = load_file(s,argv);
+    if(copied == -1) {
         printf("Error: file missing\n");
         exit(2); }
     
-    if(result == 0) {
+    if(copied == 0) {
         printf("Error: file empty");
         exit(3); }
+    
+    visual_vect(s,copied);
+    string_stats(s,copied,&capital,&lower_case);
+
+    shift_vec(s,copied);
+    visual_vect(s,copied);
 
     return 0;
 }
