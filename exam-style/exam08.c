@@ -181,7 +181,7 @@ int load_matrix(int m[C][C], char *argv[1])
         j = 0;
         i++;
       }
-      
+
     fclose(fp);
   }
 
@@ -215,6 +215,37 @@ void print_matrix(int m[][C])
   }
 }
 
+void finder_matrix(int m[][C], int v, int *p1, int *p2)
+{
+  *(p1) = -1;
+  *(p2) = -1;
+
+  int i,j;
+  for(j = 0; j < C; j++)
+  {
+    for(i = 0; i < C; i++)
+    {
+      if(m[i][j] == v && *p1 == -1) { 
+        *(p1) = i;
+        *(p2) = j;}
+    }
+  }
+}
+
+int column_sum(int m[][C], int column)
+{
+  int res = 0;
+  if(column > C || column < 1) {
+    res = -1; }
+
+  else {
+    for(int r = 0; r < C; r++) {
+      res = res+m[r][column-1];
+    }
+  }
+
+  return res;
+}
 
 
 int main (int argc, char *argv[])
@@ -223,10 +254,29 @@ int main (int argc, char *argv[])
     printf("Error: file text missing\n");
     exit(1); }
   
-  int m[C][C];
+  int m[C][C],v,addr1,addr2,column,c_sum;
 
   load_matrix(m,argv);
   print_matrix(m);
+
+  printf("Enter a value to find on the matrix: ");
+  scanf("%d", &v);
+
+  finder_matrix(m,v,&addr1,&addr2);
+
+  if(addr1 == -1) {
+    printf("\nValue not foud"); }
+    else {
+      printf("One result: \nrow %d \ncolumn %d\n",addr1,addr2); }
+
+  printf("Enter column to sum matrix: ");
+  scanf("%d", &column);
+
+  c_sum = column_sum(m,column);
+  if(c_sum == -1) {
+    printf("Error- invalid index\n"); }
+    else{
+      printf("The sum is %d\n",c_sum); }
 
   return 0;
 }
