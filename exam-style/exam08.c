@@ -144,11 +144,89 @@ The `main` function must:
 * Terminate by returning `0`.
 */
 
+#include <stdlib.h>
 #include <stdio.h>
+#define C 4
 
-int main ()
+int load_matrix(int m[C][C], char *argv[1])
 {
+  int i,j,result,x;
+  FILE *fp;
+  fp = fopen(argv[1], "r");
+
+  if(fp == NULL) {
+    result = 0; }
+
+  else {
+  i = 0;
+  j = 0;
+  result = 1;
+  while(fscanf(fp, "%d", &x) != EOF) {
+  if(x > 0 && x%2 == 1) {
+    m[i][j] = x;
+    j++;
+      if(j == C)
+      {
+        j = 0;
+        i++;
+      }
+  } } }
+  
+  while(i < C)
+  {
+    m[i][j] = 0;
+    j++;
+      if(j == C)
+      {
+        j = 0;
+        i++;
+      }
+      
+    fclose(fp);
+  }
+
+  return result;
+}
+
+void print_matrix(int m[][C])
+{
+  int i,j;
+  printf("\n\t\t");
+  for(i = 0; i < C; i++)
+  {
+    printf("%d\t",i);
+  }
+
+  printf("\n\t\t");
+    for(i = 0; i < C; i++)
+  {
+    printf("-\t");
+  }
+  printf("\n");
+
+  for(i = 0; i < C; i++)
+  {
+    printf("%d\t|",i);
+    for(j = 0; j < C; j++)
+    {
+      printf("\t%d", m[i][j]);
+    }
+    printf("\n");
+  }
+}
 
 
-    return 0;
+
+int main (int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("Error: file text missing\n");
+    exit(1); }
+  
+  int m[C][C];
+
+  load_matrix(m,argv);
+  print_matrix(m);
+
+  return 0;
 }
