@@ -148,11 +148,11 @@ The `main` function must:
 #include <stdio.h>
 #define C 4
 
-int load_matrix(int m[C][C], char *argv[1])
+int load_matrix(int m[C][C], char file_name[])
 {
   int i,j,result,x;
   FILE *fp;
-  fp = fopen(argv[1], "r");
+  fp = fopen(file_name, "r");
 
   if(fp == NULL) {
     result = 0; }
@@ -170,7 +170,9 @@ int load_matrix(int m[C][C], char *argv[1])
         j = 0;
         i++;
       }
-  } } }
+    } 
+  }}
+  fclose(fp);
   
   while(i < C)
   {
@@ -181,8 +183,6 @@ int load_matrix(int m[C][C], char *argv[1])
         j = 0;
         i++;
       }
-
-    fclose(fp);
   }
 
   return result;
@@ -256,7 +256,7 @@ int main (int argc, char *argv[])
   
   int m[C][C],v,addr1,addr2,column,c_sum;
 
-  load_matrix(m,argv);
+  load_matrix(m,argv[1]);
   print_matrix(m);
 
   printf("Enter a value to find on the matrix: ");
