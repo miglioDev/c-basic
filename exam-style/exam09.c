@@ -134,14 +134,58 @@ void print_string(char v[DIM])
     printf("\n");
 }
 
+void c_research(char v[DIM],char c, int *p1, int *p2)
+{
+    int i,len;
+    *p1 = -1;
+    *p2 = -1;
+    len = strlen(v);
+
+    for(i = 0; i < len; i++)
+    {
+        if(*p1 == -1 && v[i] == c) *p1 = i;
+        if(*p1 != -1 && v[i] == c) *p2 = i;
+    }
+}
+
+int shift_file_copy(char v[DIM], char *file_name)
+{
+    int i,len,counter = 0;
+    char k;
+    len = strlen(v);
+    FILE *fp;
+
+    k = v[len-1];
+    for(i = len-1; i > 0; i--)
+    {
+        v[i] = v[i-1];
+    }
+    v[0] = k;
+
+    fp = fopen(file_name, "w");
+
+    for(i = 0; i < len; i++) 
+    {
+    fprintf(fp,"%c",v[i]);
+    counter++;
+    if(i < len-1) {
+        fprintf(fp,"-"); }
+    counter++; 
+    }
+
+    fclose(fp);
+
+    return counter;
+}
+
 int main (int argc, char *argv[])
 {
     if(argc != 2) {
         printf("ERROR: wrong number of parameters\n");
         exit(1); }
 
-    char v[DIM];
-    int s_loaded;
+    char v[DIM],c;
+    int s_loaded,pos1,pos2,counter;
     
     s_loaded = load_vec(v);
     if(s_loaded == 0) {
@@ -149,6 +193,21 @@ int main (int argc, char *argv[])
         exit(2); }
     
     print_string(v);
+
+    printf("Enter a char: ");
+    scanf("%c", &c);
+    scanf("%c", &c);
+
+    c_research(v,c,&pos1,&pos2);
+    if(pos2 != -1) {
+    printf("Found in position %d and %d\n",pos1,pos2); }
+        else if(pos1 != -1 && pos2 == -1) {
+        printf("Char found in position: %d\n",pos1); }
+            else {
+                printf("Char not foud\n"); }
+
+    counter = shift_file_copy(v,argv[1]);
+    printf("Shift and print on file executed\n%d char copied on file\n",counter);
 
     return 0;
 }
