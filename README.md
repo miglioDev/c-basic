@@ -1,27 +1,45 @@
 # C Basics
 
-This repository contains my practice exercises in C.  
-I use it to track my progress, keep my work organized, and get used to working with Git.  
-Each exercise includes a short description of the program and the concepts I practiced.
+This repository contains my personal practice exercises in C.
 
----
+I use it to keep my work organized, track what I study, and get used to
+working with Git.  
+I share it publicly in case it can be useful to other students or
+self-learners following a similar learning path.
 
 ## Overview
-This repository documents my progress while learning the C programming language.  
-Each file contains an individual C programming exercise. 
+This repository documents my progress while learning the C programming
+language.
+Each file contains a small, self-contained C programming exercise.
 
----
+## Study Topics
+The repository follows my study progression and mirrors the folder
+structure:
+
+- Variables and basic data types
+- Selection statements and comparison operators
+- Logical operators
+- Loops (while, for, do-while)
+- Functions
+- Functions and pointers
+- Arrays
+- Matrices
+- Strings
+- Arrays of strings
+- Pointer arithmetic
+- Extended integer and floating-point types
+- File operations
+- Command-line arguments
+- Exam-style exercises
 
 ## Structure
-Each `.c` file contains:
-- A brief description of the exercise  
-- The main concepts involved  
-- Clear and readable code
-
----
+Exercises are grouped by topic into folders.
+Each `.c` file typically includes:
+- a short description of the exercise
+- clear, readable code
+- a straightforward implementation
 
 ## How to Run
-
 To compile and run any program:
 
 ```bash
