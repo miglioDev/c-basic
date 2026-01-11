@@ -105,7 +105,7 @@ int load_vec(char v[DIM])
     len = strlen(v);
     cond1 = (v[0] == 'A' || v[0] == 'E' || v[0] == 'I' || v[0] == 'O' || v[0] == 'U');
     
-    for(i = 1; i < len; i++) {
+    for(i = 1; i < len-1 && cond2; i++) {
         if(isupper(v[i])) cond2 = 0; }
 
     cond3 = (v[len-1] == 'a' || v[len-1] == 'e' || v[len-1] == 'i' || v[len-1] == 'o' || v[len-1] == 'u');
@@ -134,7 +134,7 @@ void print_string(char v[DIM])
     printf("\n");
 }
 
-void c_research(char v[DIM],char c, int *p1, int *p2)
+void c_research(char* v,char c, int *p1, int *p2)
 {
     int i,len;
     *p1 = -1;
@@ -143,8 +143,15 @@ void c_research(char v[DIM],char c, int *p1, int *p2)
 
     for(i = 0; i < len; i++)
     {
-        if(*p1 == -1 && v[i] == c) *p1 = i;
-        if(*p1 != -1 && v[i] == c) *p2 = i;
+        if(*(v+1) == c) {
+            if(*p1 == -1 && *p2 == -1) 
+            {
+            *p1 = i;
+            *p2 = i;
+            }
+                else {
+                *p2 = i;}
+        }
     }
 }
 
@@ -169,8 +176,8 @@ int shift_file_copy(char v[DIM], char *file_name)
     fprintf(fp,"%c",v[i]);
     counter++;
     if(i < len-1) {
-        fprintf(fp,"-"); }
-    counter++; 
+        fprintf(fp,"-"); 
+        counter++; }
     }
 
     fclose(fp);
@@ -195,7 +202,7 @@ int main (int argc, char *argv[])
     print_string(v);
 
     printf("Enter a char: ");
-    scanf("%c", &c);
+    scanf("%c", &c); //or ruse scanf("\n%c", &c); to consume remaining new line
     scanf("%c", &c);
 
     c_research(v,c,&pos1,&pos2);
