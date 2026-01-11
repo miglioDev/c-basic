@@ -89,10 +89,66 @@ Implement the following functions and a main program
 * Returns `0`.
 */
 
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
+#include <ctype.h>
+#define DIM 30
 
-int main ()
+int load_vec(char v[DIM])
 {
+    int len,cond1,cond2 = 1,i,cond3,ok;
+
+    printf("Enter a string: ");
+    scanf("%s", v);
+
+    len = strlen(v);
+    cond1 = (v[0] == 'A' || v[0] == 'E' || v[0] == 'I' || v[0] == 'O' || v[0] == 'U');
+    
+    for(i = 1; i < len; i++) {
+        if(isupper(v[i])) cond2 = 0; }
+
+    cond3 = (v[len-1] == 'a' || v[len-1] == 'e' || v[len-1] == 'i' || v[len-1] == 'o' || v[len-1] == 'u');
+
+    ok = (len >= 3 && cond1 && cond2 && cond3);
+
+    if(ok) {
+        return 1; }
+        else {
+            return 0;}
+}
+
+void print_string(char v[DIM])
+{
+    int i,len;
+    
+    len = strlen(v);
+
+    printf("\nIndex:\t");
+    for(i = 0; i < len; i++) {
+        printf("\t%d",i); }
+
+    printf("\nChar:\t");
+    for(i = 0; i < len; i++) {
+        printf("\t%c",v[i]); }
+    printf("\n");
+}
+
+int main (int argc, char *argv[])
+{
+    if(argc != 2) {
+        printf("ERROR: wrong number of parameters\n");
+        exit(1); }
+
+    char v[DIM];
+    int s_loaded;
+    
+    s_loaded = load_vec(v);
+    if(s_loaded == 0) {
+        printf("ERROR: invalid string\n");
+        exit(2); }
+    
+    print_string(v);
 
     return 0;
 }
