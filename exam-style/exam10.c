@@ -139,6 +139,42 @@ void print_string(int n, char m[n][DIM])
     printf("\n");
 }
 
+void string_stats(int n, char m[n][DIM], int *p1, int *p2)
+{
+    int i,len;
+    *p1 = 0;
+    *p2 = 0;
+    len = strlen(m[0]);
+
+    for(i = 0; i < n; i++)
+    {      
+        if(*(*m+1) == 'a' || *(*m+1) == 'e' || *(*m+1) == 'i' || *(*m+1) == 'o' || *(*m+1) == 'u') {
+            (*p1)++; }
+        if(*(*(m+i)+len-1) == 'a' || *(*(m+i)+len-1) == 'e' || *(*(m+i)+len-1) == 'i' || *(*(m+i)+len-1) == 'o' || *(*(m+i)+len-1) == 'u') {
+            (*p2)++; }
+    }
+}
+
+void file_writing(int n, char m[n][DIM], char *file_name)
+{
+    int i,j,len;
+    len = strlen(m[0]);
+
+    FILE *fp;
+    fp = fopen(file_name, "w");
+    
+    for(i = 0; i < n; i++)
+    {
+        for(j = 0; j < len; j++)
+        {
+           if(m[i][j] == 'a' || m[i][j] == 'e' || m[i][j] == 'i' || m[i][j] == 'o' || m[i][j] == 'u') {
+            fprintf(fp,"%c,", m[i][j]);
+           }
+        }
+    }
+    fclose(fp);
+}
+
 
 int main (int argc, char *argv[])  // ./a n_of_string file_name.txt
 {
@@ -153,7 +189,7 @@ int main (int argc, char *argv[])  // ./a n_of_string file_name.txt
         exit(2); }
 
     char m[n][DIM];
-    int res;
+    int res,first_v,last_v;
 
     res = load_string(n,m);
     if(res == 0) {
@@ -161,7 +197,11 @@ int main (int argc, char *argv[])  // ./a n_of_string file_name.txt
     exit(3); }
 
     print_string(n,m);
+    string_stats(n,m,&first_v,&last_v);
+    printf("The string that start with a lower case vowel are: %d\n",first_v);
+    printf("The string that end with a lower case vowel are: %d\n",last_v);
 
+    file_writing(n,m,argv[2]);
 
     return 0;
 }
