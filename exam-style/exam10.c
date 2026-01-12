@@ -94,7 +94,7 @@ int load_string(int n, char m[n][DIM])
     scanf("%s", m[0]);
 
     len = strlen(m[0]);
-    for(i = 0; i < len-1 && cond1; i++) {
+    for(i = 0; i < len && cond1; i++) {
         if(isupper(m[0][i])) {
             cond1 = 0; }
     }
@@ -109,8 +109,8 @@ int load_string(int n, char m[n][DIM])
 
         for(i = 0; i < n-1; i++) {
         strcpy(m[i+1], m[i]);
-        m[i+1][len-1] = k;
-        k++; }
+        m[i+1][len-1] = k;    //or remove k and just use v[i][len-1]++; 
+        k++; }        
 
         return 1;
     }
@@ -148,7 +148,7 @@ void string_stats(int n, char m[n][DIM], int *p1, int *p2)
 
     for(i = 0; i < n; i++)
     {      
-        if(*(*m+1) == 'a' || *(*m+1) == 'e' || *(*m+1) == 'i' || *(*m+1) == 'o' || *(*m+1) == 'u') {
+        if(*(*(m+i)+0) == 'a' || *(*(m+i)+0) == 'e' || *(*(m+i)+0) == 'i' || *(*(m+i)+0) == 'o' || *(*(m+i)+0) == 'u') {
             (*p1)++; }
         if(*(*(m+i)+len-1) == 'a' || *(*(m+i)+len-1) == 'e' || *(*(m+i)+len-1) == 'i' || *(*(m+i)+len-1) == 'o' || *(*(m+i)+len-1) == 'u') {
             (*p2)++; }
@@ -157,7 +157,7 @@ void string_stats(int n, char m[n][DIM], int *p1, int *p2)
 
 void file_writing(int n, char m[n][DIM], char *file_name)
 {
-    int i,j,len;
+    int i,j,len,first = 1;
     len = strlen(m[0]);
 
     FILE *fp;
@@ -168,7 +168,12 @@ void file_writing(int n, char m[n][DIM], char *file_name)
         for(j = 0; j < len; j++)
         {
            if(m[i][j] == 'a' || m[i][j] == 'e' || m[i][j] == 'i' || m[i][j] == 'o' || m[i][j] == 'u') {
-            fprintf(fp,"%c,", m[i][j]);
+
+            if(!first) {
+                fprintf(fp,","); }
+            
+            fprintf(fp,"%c", m[i][j]);
+            first = 0;
            }
         }
     }
