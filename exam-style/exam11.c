@@ -130,17 +130,48 @@ int print_vec(int v[DIM])
     return 0; }
       else {
         printf("\nIndex: ");
-        for(i = 0; i < DIM; i++)
+        for(i = 0; v[i] != -1; i++)
         {
           printf("\t%d",i); 
         }
         printf("\nValue: ");
-        for(i = 0; i < DIM; i++)
+        for(i = 0; v[i] != -1; i++)
         {
           printf("\t%d",v[i]);
         }
+        printf("\n");
+
         return 1;
       }
+}
+
+void min_and_max(int *v, int *p1, int *p2)
+{
+  int i;
+  *p1 = *(v+0);
+  *p2 = *(v+0);          
+
+  for(i = 1; i < DIM && *(v+i) != -1; i++)  
+  {
+    if(*(v+i) > *p1) *p1 = *(v+i);    //v[i] = *(v+i)
+    if(*(v+i) < *p2) *p2 = *(v+i);
+  }
+}
+
+void value_remv(int v[DIM])
+{
+  int len,i;
+  for(len = 0; v[len] != -1; len++);
+
+  if(len%2 == 1) {
+    i = (len/2)+1;
+
+    for(; i < len-1; i++)
+    {
+      v[i] = v[i+1];
+    }
+    v[i] = -1;
+  }
 }
 
 int main (int argc, char *argv[])
@@ -149,13 +180,23 @@ int main (int argc, char *argv[])
     printf("ERROR 1: invalid number of parameters\n");
     exit(1); }
 
-  int v[DIM],res;
+  int v[DIM],res,min,max;
 
   res = file_loading(v,argv[1]);
   if(res == 0) {
   printf("ERROR 2: file not found");
   exit(2); }
   
+  res = print_vec(v);
+  if(res == 0) {
+    printf("ERROR 3: empty array\n");
+    exit(3); }
+
+  min_and_max(v,&max,&min);
+  printf("The min is: %d\n",min);
+  printf("The max is: %d\n",max);
+
+  value_remv(v);
   res = print_vec(v);
   if(res == 0) {
     printf("ERROR 3: empty array\n");
