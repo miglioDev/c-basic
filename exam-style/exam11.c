@@ -92,10 +92,74 @@ The `main` function:
 * returns `0`.
 */
 
+#include <stdlib.h>
 #include <stdio.h>
+#define DIM 10
 
-int main ()
+int file_loading(int v[DIM], char *file_name)
 {
+  int x,y,copied = 0;
+
+  printf("Enter a value x: ");
+  scanf("%d", &x);
+
+  FILE *fp;
+  fp = fopen(file_name, "r");
+
+  if(fp == NULL) {
+    return 0; }
+
+  else {
+    while(fscanf(fp, "%d", &y) != EOF && copied < DIM-1)
+    {
+      if(y > 0 && y%x == 0)
+      {
+        v[copied] = y;
+        copied++;
+      }
+    }
+    v[copied] = -1;
+    return 1;
+  }
+}
+
+int print_vec(int v[DIM])
+{
+  int i;
+  if(v[0] == -1) {
+    return 0; }
+      else {
+        printf("\nIndex: ");
+        for(i = 0; i < DIM; i++)
+        {
+          printf("\t%d",i); 
+        }
+        printf("\nValue: ");
+        for(i = 0; i < DIM; i++)
+        {
+          printf("\t%d",v[i]);
+        }
+        return 1;
+      }
+}
+
+int main (int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("ERROR 1: invalid number of parameters\n");
+    exit(1); }
+
+  int v[DIM],res;
+
+  res = file_loading(v,argv[1]);
+  if(res == 0) {
+  printf("ERROR 2: file not found");
+  exit(2); }
+  
+  res = print_vec(v);
+  if(res == 0) {
+    printf("ERROR 3: empty array\n");
+    exit(3); }
 
     return 0;
 }
