@@ -151,7 +151,7 @@ void min_and_max(int *v, int *p1, int *p2)
   *p1 = *(v+0);
   *p2 = *(v+0);          
 
-  for(i = 1; i < DIM && *(v+i) != -1; i++)  
+  for(i = 1; *(v+i) != -1; i++)  
   {
     if(*(v+i) > *p1) *p1 = *(v+i);    //v[i] = *(v+i)
     if(*(v+i) < *p2) *p2 = *(v+i);
@@ -164,14 +164,12 @@ void value_remv(int v[DIM])
   for(len = 0; v[len] != -1; len++);
 
   if(len%2 == 1) {
-    i = (len/2)+1;
-
-    for(; i < len-1; i++)
+    for(i = (len/2); i < len-1; i++)
     {
       v[i] = v[i+1];
     }
-    v[i] = -1;
   }
+   v[i] = -1;
 }
 
 int main (int argc, char *argv[])
