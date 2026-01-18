@@ -113,7 +113,7 @@ void load_string(char v[DIM])
     len = strlen(v);
     for(i = 0; i < len; i++)
     {
-      if(isupper(v[i]))
+      if(!islower(v[i]))
       cond = 0;
     }
 
@@ -152,11 +152,9 @@ void occ_find(char *v, int *p1, int *p2)
   {
     if(*(v+i) == 'a' ||*(v+i) == 'e' || *(v+i) == 'i' || *(v+i) == 'o' ||*(v+i) == 'u') {
       if(*p1 == -1) {
-        *p1 = i;
-        *p2 = i; }
-          else if(*p1 != -1 && *p2 == *p1) {
-            *p2 = i;
-          }
+        *p1 = i; }
+
+      *p2 = i;
     }
   }
 }
@@ -175,8 +173,9 @@ int file_writing(char v[DIM], char *file_name)
       if(counter == 0) {
       fprintf(fp,"%c",v[i]);
       counter++; }
+
         else {
-          fprintf(fp,"%c,",v[i]);
+          fprintf(fp,",%c",v[i]);
           counter++;
           counter++; } }
   }
@@ -203,7 +202,8 @@ int main(int argc, char *argv[])
 
     occ_find(v,&a,&b);
     if(a == -1) {
-    printf("There are not any vowel\n"); }
+    printf("There are not any vowel\n");
+    exit(2); }
         else if(a == b) {
         printf("One in %d position\n",a); }
           else {
