@@ -140,21 +140,77 @@ int is_sorted(char v[DIM])
   return cond;
 }
 
-int main(int argc, char **file_name)
+void occ_find(char *v, int *p1, int *p2)
+{
+  *p1 = -1;
+  *p2 = -1;
+  int len,i;
+  
+  len = strlen(v);
+
+  for(i = 0; i < len; i++)
+  {
+    if(*(v+i) == 'a' ||*(v+i) == 'e' || *(v+i) == 'i' || *(v+i) == 'o' ||*(v+i) == 'u') {
+      if(*p1 == -1) {
+        *p1 = i;
+        *p2 = i; }
+          else if(*p1 != -1 && *p2 == *p1) {
+            *p2 = i;
+          }
+    }
+  }
+}
+
+int file_writing(char v[DIM], char *file_name)
+{
+  FILE *fp;
+  int i,len,counter = 0;
+  len = strlen(v);
+  fp = fopen(file_name, "w");
+
+  for(i = 0; i < len; i++)
+  {
+    if(v[i] == 'a' || v[i] == 'e' || v[i] == 'i' || v[i] == 'o' || v[i] == 'u') {
+      
+      if(counter == 0) {
+      fprintf(fp,"%c",v[i]);
+      counter++; }
+        else {
+          fprintf(fp,"%c,",v[i]);
+          counter++;
+          counter++; } }
+  }
+  fclose(fp);
+
+  return counter;
+}
+
+int main(int argc, char *argv[])
 {
     if(argc != 2) {
       printf("ERROR 1: wrong number of parameters\n");
       exit(1); }
 
     char v[DIM];
-    int ord;
+    int ord,a,b,f;
 
     load_string(v);
     ord = is_sorted(v);
     if(ord) {
     printf("The string is sorted\n"); }
       else {
-      printf("The string is not sorted"); }
+      printf("The string is not sorted\n"); }
+
+    occ_find(v,&a,&b);
+    if(a == -1) {
+    printf("There are not any vowel\n"); }
+        else if(a == b) {
+        printf("One in %d position\n",a); }
+          else {
+            printf("First in %d and second in %d",a,b); }
+
+    f = file_writing(v,argv[1]);
+    printf("%d char enter in the text file\n",f);
 
     return 0;
 }
