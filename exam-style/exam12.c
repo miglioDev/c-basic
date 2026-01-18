@@ -94,10 +94,67 @@ The `main` function must:
 * Terminate returning `0`.
 */
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#define DIM 30
 
-int main()
+void load_string(char v[DIM])
 {
+  int i,len,cond,ok;
+  do
+  {
+    cond = 1;
+
+    printf("Enter the string: ");
+    scanf("%s", v);
+
+    len = strlen(v);
+    for(i = 0; i < len; i++)
+    {
+      if(isupper(v[i]))
+      cond = 0;
+    }
+
+    ok = (len >= 3 && cond);
     
+    if(!ok) {
+      printf("ERROR: invalid string\n");
+    }
+  } 
+  while (!ok);
+}
+
+int is_sorted(char v[DIM])
+{
+  int i,len,cond = 1;
+  len = strlen(v);
+
+  for(i = 0; i < len-1 && cond; i++)
+  {
+    if((v[i] > v[i+1])) {
+      cond = 0; }
+  }
+
+  return cond;
+}
+
+int main(int argc, char **file_name)
+{
+    if(argc != 2) {
+      printf("ERROR 1: wrong number of parameters\n");
+      exit(1); }
+
+    char v[DIM];
+    int ord;
+
+    load_string(v);
+    ord = is_sorted(v);
+    if(ord) {
+    printf("The string is sorted\n"); }
+      else {
+      printf("The string is not sorted"); }
+
     return 0;
 }
