@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
             printf("First in %d and second in %d",a,b); }
 
     f = file_writing(v,argv[1]);
-    printf("%d char enter in the text file\n",f);
+    printf("\n%d char enter in the text file\n",f);
 
     return 0;
 }
