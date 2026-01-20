@@ -25,7 +25,7 @@ void load_vec_from_file(char m[][C], char *file_name)
     fp = fopen(file_name, "r");
 
     if(fp == NULL) {
-        printf("Error - file missing\b");
+        printf("Error - file missing\n");
         return; }
     
     else {
@@ -47,7 +47,7 @@ void load_vec_from_file(char m[][C], char *file_name)
 void copy_on_a_second_file(char m[][C], char *new_file_name)
 {
     int last = 0;
-    while(m[last][0] != '\0') {last++; } printf("last = %d", last);
+    while(m[last][0] != '\0') {last++; } printf("last = %d", last); //or start from C-1 and strlen for string check
 
     FILE *fp;
     fp = fopen(new_file_name, "w");
