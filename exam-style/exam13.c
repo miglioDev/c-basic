@@ -12,7 +12,7 @@ Write a function that:
 
   * a square matrix of integers,
   * the name of a text file.
-* Reads integers from the file and stores them into the matrix (the file contains exactly enough values to fill the matrix).
+* Reads integers from the file and stores them into the matrix (The file contains exactly enough values to fill the matrix).
 * Closes the file.
 * After loading, swaps the contents of the first two rows of the matrix.
 * Does not return any value.
@@ -145,9 +145,78 @@ Write the `main` function that:
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#define R 4
+#define C 4
 
-int main ()
+void search_matrix(int m[][C], char *file_name)
 {
+  FILE *fp;
+  fp = fopen(file_name, "r");
+
+  if(fp == NULL) {
+    printf("Error - file\n");
+    return; }
+  
+  else {
+    int r,c,k;
+    char x[31];
+    for(r = 0; r < R; r++)
+    {
+      for(c = 0; c < C; c++)
+      {
+        fscanf(fp,"%s",x);
+        m[r][c] = atoi(x);
+      }
+    }
+    fclose(fp);
+
+    for(c = 0; c < C; c++)
+    {
+      k = m[0][c];
+      m[0][c] = m[1][c];
+      m[1][c] = k;
+    }
+  }
+}
+
+void print_matrix(int m[][C])
+{
+  int r,c;
+
+  printf("\n\t\t");
+  for(r = 0; r < R; r++)
+  {
+    printf("%d\t",r);
+  }
+  printf("\n\t\t");
+  for(r = 0; r < R; r++)
+  {
+    printf("-\t");
+  }
+
+  printf("\n");
+  for(r = 0; r < R; r++)
+  {
+    printf("%d\t|\t",r);
+    for(c = 0; c < C; c++)
+    {
+      printf("%d\t",m[r][c]);
+    }
+    printf("\n");
+  }
+}
+
+int main (int arc, char *argv[]) //file name and value for m 
+{
+  if(arc != 3) {
+    printf("ERROR: invalid number of parameters");
+    exit(1); }
+  
+  int m[R][C];
+  
+  search_matrix(m,argv[1]);
+  print_matrix(m);
 
     return 0;
 }
