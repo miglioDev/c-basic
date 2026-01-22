@@ -149,7 +149,7 @@ Write the `main` function that:
 #define R 4
 #define C 4
 
-void search_matrix(int m[][C], char *file_name)
+void load_matrix(int m[][C], char *file_name)
 {
   FILE *fp;
   fp = fopen(file_name, "r");
@@ -226,20 +226,42 @@ void max_and_min(int m[][C], int *p1, int *p2)
   }
 }
 
+int search_matrix(int m[][C], int z)
+{
+  int present = 0,r,c;
+
+  for(r = 0; r < R; r++)
+  {
+    for(c = 0; c < C; c++)
+    {
+      if(m[r][c] == z) {
+        present = 1; }
+    }
+  }
+
+  return present; 
+}
+
 int main (int arc, char *argv[]) //file name and value for m 
 {
   if(arc != 3) {
     printf("ERROR: invalid number of parameters");
     exit(1); }
   
-  int m[R][C],min,max;
+  int m[R][C],min,max,z;
   
-  search_matrix(m,argv[1]);
+  load_matrix(m,argv[1]);
   print_matrix(m);
   max_and_min(m,&min,&max);
-  
+
   printf("\nMin = %d",min);
   printf("\nMax = %d",max);
+
+  z = search_matrix(m,atoi(argv[2]));
+  if(z) {
+  printf("\nThe value is present in the matrix\n"); }
+    else {
+      printf("\nValue not found"); }
 
     return 0;
 }
