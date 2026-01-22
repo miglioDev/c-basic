@@ -207,16 +207,39 @@ void print_matrix(int m[][C])
   }
 }
 
+void max_and_min(int m[][C], int *p1, int *p2)
+{
+  *p1 = m[0][0];
+  *p2 = m[0][0];
+  int r,c;
+
+  for(r = 0; r < R; r++)
+  {
+    for(c = 0; c < C; c++)
+    {
+      if(*p1 > *(*(m+r)+c) ) {
+        *p1 = *(*(m+r)+c); }
+
+      if(*p2 < *(*(m+r)+c)) {
+        *p2 = *(*(m+r)+c); }
+    }
+  }
+}
+
 int main (int arc, char *argv[]) //file name and value for m 
 {
   if(arc != 3) {
     printf("ERROR: invalid number of parameters");
     exit(1); }
   
-  int m[R][C];
+  int m[R][C],min,max;
   
   search_matrix(m,argv[1]);
   print_matrix(m);
+  max_and_min(m,&min,&max);
+  
+  printf("\nMin = %d",min);
+  printf("\nMax = %d",max);
 
     return 0;
 }
