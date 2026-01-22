@@ -160,13 +160,11 @@ void load_matrix(int m[][C], char *file_name)
   
   else {
     int r,c,k;
-    char x[31];
     for(r = 0; r < R; r++)
     {
       for(c = 0; c < C; c++)
       {
-        fscanf(fp,"%s",x);
-        m[r][c] = atoi(x);
+        fscanf(fp,"%d",&m[r][c]);
       }
     }
     fclose(fp);
@@ -185,9 +183,9 @@ void print_matrix(int m[][C])
   int r,c;
 
   printf("\n\t\t");
-  for(r = 0; r < R; r++)
+  for(c = 0; c < C; c++)
   {
-    printf("%d\t",r);
+    printf("%d\t",c);
   }
   printf("\n\t\t");
   for(r = 0; r < R; r++)
@@ -230,7 +228,7 @@ int search_matrix(int m[][C], int z)
 {
   int present = 0,r,c;
 
-  for(r = 0; r < R; r++)
+  for(r = 0; r < R && !present; r++)
   {
     for(c = 0; c < C; c++)
     {
