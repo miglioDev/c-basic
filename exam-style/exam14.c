@@ -129,4 +129,59 @@ After:
 * Terminates returning `0`.
 */
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#define R 40
+#define C 40
+
+int load_m_from_file(char m[][C], FILE *fp)
+{
+  int len,i,counter = 0,cond;
+  char buffer[C];
+
+  while(fscanf(fp,"%s",buffer) != EOF && counter < R)
+  {
+    len = strlen(buffer);
+    cond = 0;
+    for(i = 0; i < len-1; i++)
+    {
+      if(islower(buffer[i]) && (buffer[i] == 'a' || buffer[i] == 'e' || buffer[i] == 'i' || buffer[i] == 'o' || buffer[i] == 'u') &&
+       islower(buffer[i+1]) && (buffer[i+1] == 'a' || buffer[i+1] == 'e' || buffer[i+1] == 'i' || buffer[i+1] == 'o' || buffer[i+1] == 'u')) {
+      cond = 1;
+      }
+    }
+    if(cond) {
+      strcpy(m[counter], buffer);
+      counter++; }
+  }
+
+  return counter;
+}
+
+int main (int argc, char *argv[])
+{
+  char m[R][C];
+
+  if(argc != 2) {
+    printf("ERROR 1: invalid number of parameters\n");
+    exit(1); }
+
+  FILE *fp;
+  fp = fopen(argv[1], "r");
+
+  if(fp == NULL ) {
+    printf("ERROR 2: text file not found\n");
+    exit(2); }
+
+  int copied;
+
+  copied = load_m_from_file(m,fp);
+
+  fclose(fp);
+
+
+  return 0;
+}
 
