@@ -37,27 +37,15 @@ Resulting array:
 
 *Example output*
 
-Indices:
+Indices:    Strings:
 
 ```
-0
-1
-2
-3
-4
-5
-```
-
-Strings:
-
-```
-Andrea
-Emanuel
-Sofia
-Lucia
-Bob
-Mark
-```
+0           Andrea
+1           Emanuel
+2           Sofia
+3           .....
+4           ...
+5 
 
 ---
 
@@ -160,6 +148,35 @@ int load_m_from_file(char m[][C], FILE *fp)
   return counter;
 }
 
+void print_matrix(char m[][C], int row)
+{
+  if(row == 0)  {
+    printf("Empty array\n"); }
+
+  else {
+    int r;
+    printf("Index:\tString:\n");
+    for(r = 0; strlen(m[r]) > 0 && r < R; r++)
+    {
+      printf("%d\t%s\n",r,m[r]);
+    }
+  }
+}
+
+void even_and_odd(char (*m)[C], int *p1, int *p2)
+{                     
+  int r;
+  *p1 = 0;
+  *p2 = 0; 
+  for(r = 0; strlen(*(m+r)) > 0; r++)    //*(m+r) == m[i]
+  {
+    if(strlen(*(m+r)) % 2 == 0) {
+      (*p1) ++; }
+      else {
+        (*p2) ++; }
+  }
+}
+
 int main (int argc, char *argv[])
 {
   char m[R][C];
@@ -175,12 +192,16 @@ int main (int argc, char *argv[])
     printf("ERROR 2: text file not found\n");
     exit(2); }
 
-  int copied;
+  int copied,even,odd;
 
   copied = load_m_from_file(m,fp);
 
   fclose(fp);
 
+  print_matrix(m,copied);
+  even_and_odd(m,&even,&odd);
+    printf("Even lengh string: %d\n",even);
+    printf("Odd lenght string: %d\n",odd);
 
   return 0;
 }
