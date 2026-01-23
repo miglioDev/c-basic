@@ -177,6 +177,19 @@ void even_and_odd(char (*m)[C], int *p1, int *p2)
   }
 }
 
+void matrix_row_shift(char m[][C], int row)
+{
+  char temp[C],r;
+
+  strcpy(temp,m[0]);
+
+  for(r = 0; r < row; r++)
+  {
+    strcpy(m[r],m[r+1]);
+  }
+  strcpy(m[row-1],temp);
+}
+
 int main (int argc, char *argv[])
 {
   char m[R][C];
@@ -203,6 +216,10 @@ int main (int argc, char *argv[])
     printf("Even lengh string: %d\n",even);
     printf("Odd lenght string: %d\n",odd);
 
+  matrix_row_shift(m,copied);
+
+  print_matrix(m,copied);
+  
   return 0;
 }
 
