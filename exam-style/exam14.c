@@ -126,21 +126,23 @@ After:
 
 int load_m_from_file(char m[][C], FILE *fp)
 {
-  int len,i,counter = 0,cond;
+  int len,i,counter = 0,cond1, cond2, ok;
   char buffer[C];
 
   while(fscanf(fp,"%s",buffer) != EOF && counter < R)
   {
     len = strlen(buffer);
-    cond = 0;
-    for(i = 0; i < len-1; i++)
+    cond1 = 0; cond2 = 0; ok = 0;
+
+    for(i = 0; i < len-1 && !ok; i++)
     {
-      if(islower(buffer[i]) && (buffer[i] == 'a' || buffer[i] == 'e' || buffer[i] == 'i' || buffer[i] == 'o' || buffer[i] == 'u') &&
-       islower(buffer[i+1]) && (buffer[i+1] == 'a' || buffer[i+1] == 'e' || buffer[i+1] == 'i' || buffer[i+1] == 'o' || buffer[i+1] == 'u')) {
-      cond = 1;
-      }
+      cond1 = (buffer[i] == 'a' || buffer[i] == 'e' || buffer[i] == 'i' || buffer[i] == 'o' || buffer[i] == 'u');
+      cond2 = (buffer[i+1] == 'a' || buffer[i+1] == 'e' || buffer[i+1] == 'i' || buffer[i+1] == 'o' || buffer[i+1] == 'u');
+
+      if(cond1 && cond2) {
+        ok = 1; }
     }
-    if(cond) {
+    if(ok) {
       strcpy(m[counter], buffer);
       counter++; }
   }
@@ -156,19 +158,19 @@ void print_matrix(char m[][C], int row)
   else {
     int r;
     printf("Index:\tString:\n");
-    for(r = 0; strlen(m[r]) > 0 && r < R; r++)
+    for(r = 0; r < row; r++)
     {
       printf("%d\t%s\n",r,m[r]);
     }
   }
 }
 
-void even_and_odd(char (*m)[C], int *p1, int *p2)
+void even_and_odd(char (*m)[C],int q,int *p1, int *p2)
 {                     
   int r;
   *p1 = 0;
   *p2 = 0; 
-  for(r = 0; strlen(*(m+r)) > 0; r++)    //*(m+r) == m[i]
+  for(r = 0; r < q; r++)    //*(m+r) == m[i]
   {
     if(strlen(*(m+r)) % 2 == 0) {
       (*p1) ++; }
@@ -179,11 +181,12 @@ void even_and_odd(char (*m)[C], int *p1, int *p2)
 
 void matrix_row_shift(char m[][C], int row)
 {
-  char temp[C],r;
+  char temp[C];
+  int r;
 
   strcpy(temp,m[0]);
 
-  for(r = 0; r < row; r++)
+  for(r = 0; r < row-1; r++)
   {
     strcpy(m[r],m[r+1]);
   }
@@ -212,7 +215,7 @@ int main (int argc, char *argv[])
   fclose(fp);
 
   print_matrix(m,copied);
-  even_and_odd(m,&even,&odd);
+  even_and_odd(m,copied,&even,&odd);
     printf("Even lengh string: %d\n",even);
     printf("Odd lenght string: %d\n",odd);
 
