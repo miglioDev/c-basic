@@ -136,3 +136,92 @@ Write a `main` function that:
   * `"strings have different lengths"`.
 * Terminates returning `0`.
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define R 20
+#define C 29
+
+int matrix_loading_from_file(char m[][C], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name, "r");
+
+  if(fp == NULL) {
+    return 0; }
+
+  else {
+    int copied,cond1,cond2,f,len;
+    char buffer[C];
+
+    while(fscanf(fp,"%s", buffer) != EOF && copied < R)
+    {
+      f = 0;
+      len = strlen(buffer);
+
+      cond1 = (buffer[0] == 'A' || buffer[0] == 'E' || buffer[0] == 'I' || buffer[0] == 'O' || buffer[0] == 'U');
+      cond2 = (islower(buffer[len-1]) && (buffer[len-1] != 'a' || buffer[len-1] != 'e' || buffer[len-1] != 'i' || buffer[len-1] != 'o' || buffer[len-1] != 'u'));
+      
+      if(cond1 && cond2) {
+        f = 1; }
+
+      if(f) {
+        strcpy(m[copied], buffer);
+        copied++; }
+    }
+    fclose(fp);
+
+    while(copied < R)
+    {
+      m[copied][0] = '\0';
+      copied++;
+    }
+    
+    return 1;
+  }
+}
+
+int show_matrix(char m[][C])
+{
+  int r;
+  for(r = 0; m[r][0] != '\0' && r < R; r++)
+  {
+    printf("%d: %s\t",r,m[r]);
+  }
+  printf("\n");
+
+  if(r == R-1) {
+    return 1; }
+
+    else {
+      return 0; }
+}
+
+int main (int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("ERROR 1: invalid number of arguments\n");
+    exit(1); }
+
+    char m[R][C];
+    int r;
+
+    r = matrix_loading_from_file(m,argv[1]);
+    if(r == 0) {
+    printf("ERROR 2: file %s not found\n",argv[1]);
+    exit(2); }
+
+      else if(r == 1 && m[0][0] == '\0') {
+        printf("ERROR 3: the array is empty\n");
+        exit(3); }
+
+    r = show_matrix(m);
+      if(r) {
+      printf("the array is fully used\n"); }
+        else {
+        printf("the array is partially used\n"); }
+
+  return 0;
+}
