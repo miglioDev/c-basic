@@ -142,7 +142,7 @@ Write a `main` function that:
 #include <string.h>
 #include <ctype.h>
 #define R 20
-#define C 29
+#define C 30
 
 int matrix_loading_from_file(char m[][C], char *file_name)
 {
@@ -153,7 +153,7 @@ int matrix_loading_from_file(char m[][C], char *file_name)
     return 0; }
 
   else {
-    int copied,cond1,cond2,f,len;
+    int copied = 0,cond1,cond2,f,len;
     char buffer[C];
 
     while(fscanf(fp,"%s", buffer) != EOF && copied < R)
@@ -162,7 +162,7 @@ int matrix_loading_from_file(char m[][C], char *file_name)
       len = strlen(buffer);
 
       cond1 = (buffer[0] == 'A' || buffer[0] == 'E' || buffer[0] == 'I' || buffer[0] == 'O' || buffer[0] == 'U');
-      cond2 = (islower(buffer[len-1]) && (buffer[len-1] != 'a' || buffer[len-1] != 'e' || buffer[len-1] != 'i' || buffer[len-1] != 'o' || buffer[len-1] != 'u'));
+      cond2 = (islower(buffer[len-1]) && (buffer[len-1] != 'a' && buffer[len-1] != 'e' && buffer[len-1] != 'i' && buffer[len-1] != 'o' && buffer[len-1] != 'u'));
       
       if(cond1 && cond2) {
         f = 1; }
@@ -192,7 +192,7 @@ int show_matrix(char m[][C])
   }
   printf("\n");
 
-  if(r == R-1) {
+  if(r == R) {
     return 1; }
 
     else {
@@ -208,7 +208,7 @@ void char_finder(char (*m)[C],char c, int *p1, int *p2)
   for(r = 0; *(*(m+r)+0) != '\0'; r++)    //m[r][c]   *(*(m+r)+j)
   {
     len = strlen(m[r]);
-    for(j = 0; j < len-1; j++)
+    for(j = 0; j < len-1; j++)  //or use strchr()
     {
       if(*(*(m+r)+j) == c && *p1 == -1) {
         *p1 = r; }
