@@ -218,6 +218,20 @@ void char_finder(char (*m)[C],char c, int *p1, int *p2)
   }
 }
 
+int string_len_check(char m[][C])
+{
+  int r,len,equal = 1;
+  len = strlen(m[0]);
+
+  for(r = 1; m[r][0] != '\0'; r++)
+  {
+    if(strlen(m[r]) != len) {
+      equal = 0; }
+  }
+
+  return equal;
+}
+
 int main (int argc, char *argv[])
 {
   if(argc != 2) {
@@ -251,6 +265,11 @@ int main (int argc, char *argv[])
       else {
       printf("the first string containing %c has index %d, the last has index %d\n",c,first,last); }
 
-  
+  r = string_len_check(m);
+  if(r) {
+  printf("all strings have the same length\n"); }
+    else {
+      printf("strings have different lengths\n"); }
+
   return 0;
 }
