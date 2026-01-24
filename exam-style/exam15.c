@@ -199,14 +199,33 @@ int show_matrix(char m[][C])
       return 0; }
 }
 
+void char_finder(char (*m)[C],char c, int *p1, int *p2)
+{
+  int r,j,len;
+  *p1 = -1;
+  *p2 = -1;     
+
+  for(r = 0; *(*(m+r)+0) != '\0'; r++)    //m[r][c]   *(*(m+r)+j)
+  {
+    len = strlen(m[r]);
+    for(j = 0; j < len-1; j++)
+    {
+      if(*(*(m+r)+j) == c && *p1 == -1) {
+        *p1 = r; }
+      if(*(*(m+r)+j) == c) {
+        *p2 = r; }
+    }
+  }
+}
+
 int main (int argc, char *argv[])
 {
   if(argc != 2) {
     printf("ERROR 1: invalid number of arguments\n");
     exit(1); }
 
-    char m[R][C];
-    int r;
+    char m[R][C],c;
+    int r,first,last;
 
     r = matrix_loading_from_file(m,argv[1]);
     if(r == 0) {
@@ -223,5 +242,15 @@ int main (int argc, char *argv[])
         else {
         printf("the array is partially used\n"); }
 
+  printf("Enter a char: ");
+  scanf("%c",&c);
+
+  char_finder(m,c,&first,&last);
+    if(first == -1) {
+    printf("no string contains %c\n",c); }
+      else {
+      printf("the first string containing %c has index %d, the last has index %d\n",c,first,last); }
+
+  
   return 0;
 }
