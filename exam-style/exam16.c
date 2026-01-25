@@ -122,6 +122,9 @@ int visual_string(char v[DIM])
         counter++; }
     }
 
+    if(counter < 2) {
+      printf("Error --\n"); }
+
   }
   while(counter < 2);
 
@@ -150,12 +153,13 @@ void digit_search(char v[DIM], int *p1, int *p2)
 {    
   int i,len;
   len = strlen(v);
-  *p1 = 0;
+  *p1 = -1;
+  *p2 = -1;
   
   for(i = 0; i < len; i++)
   {
     if(isdigit(v[i])) {
-      if(*p1 == 0) {
+      if(*p1 == -1) {
         *p1 = i; }
       else {
         *p2 = i;} }
