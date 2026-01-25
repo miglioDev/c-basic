@@ -96,3 +96,71 @@ Write a `main` function that:
 * Calls the function that searches for digit positions and prints the results.
 * Calls the function that copies non-digit characters to the file and prints the number of characters written. 
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define DIM 20
+
+int visual_string(char v[DIM])
+{
+  int len,i,counter;
+
+  do
+  {
+    counter = 0;
+
+    printf("Enter a string: ");
+    scanf("%s",v);
+
+    len = strlen(v);
+
+    for(i = 0; i < len; i++)
+    {
+      if(isdigit(v[i])) {
+        counter++; }
+    }
+
+  }
+  while(counter < 2);
+
+  return counter;
+}
+
+void print_string(char v[DIM])
+{
+  int i,len;
+  len = strlen(v);
+
+  printf("\nIndex:\t");
+  for(i = 0; i < len; i++)
+  {
+    printf("\t%d",i);
+  }
+
+  printf("\nChar:\t");
+  for(i = 0; i < len; i++)
+  {
+    printf("\t%c",v[i]);
+  }
+}
+
+int main (int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("Error - wrong number of argument\n");
+    exit(1); }
+
+  char v[DIM];
+  int n_of_digit;
+
+  n_of_digit = visual_string(v);
+  printf("There are %d digit\n",n_of_digit);
+  
+  print_string(v);
+    
+  
+
+
+}
