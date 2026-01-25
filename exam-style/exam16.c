@@ -146,6 +146,45 @@ void print_string(char v[DIM])
   }
 }
 
+void digit_search(char v[DIM], int *p1, int *p2)
+{    
+  int i,len;
+  len = strlen(v);
+  *p1 = 0;
+  
+  for(i = 0; i < len; i++)
+  {
+    if(isdigit(v[i])) {
+      if(*p1 == 0) {
+        *p1 = i; }
+      else {
+        *p2 = i;} }
+  }
+}
+
+int copy_on_file(char v[DIM], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name, "w");
+
+  int len,i,copied = 0;
+  len = strlen(v);
+
+  for(i = 0; i < len; i++)
+  {
+    if(!isdigit(v[i]) && copied == 0) {
+      fprintf(fp,"%c",v[i]);
+      copied++; }
+
+    else if(!isdigit(v[i]) && copied > 0) {
+      fprintf(fp,"_%c",v[i]);
+      copied+=2; }
+  }
+  fclose(fp);
+
+  return copied;
+}
+
 int main (int argc, char *argv[])
 {
   if(argc != 2) {
@@ -153,14 +192,17 @@ int main (int argc, char *argv[])
     exit(1); }
 
   char v[DIM];
-  int n_of_digit;
+  int n_of_digit,first_digit,last_digit,file_char;
 
   n_of_digit = visual_string(v);
   printf("There are %d digit\n",n_of_digit);
   
   print_string(v);
-    
-  
+  digit_search(v,&first_digit,&last_digit);
+  printf("\n\nThe first digit is at index %d, the second is %d\n",first_digit,last_digit);
 
+  file_char = copy_on_file(v,argv[1]);
+  printf("%d char have copied on the file\n",file_char);
 
+  return 0;
 }
