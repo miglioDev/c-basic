@@ -15,7 +15,7 @@ Write a function that:
 * If the file with the given name **does not exist**, returns `0`.
 * If the file **exists**:
 
-  * opens the file,
+  * opens the file, (the file may not contain 5 integer)
   * reads integer values from the file and stores them in the **first column** of the matrix (up to the number of rows),
   * closes the file,
   * automatically fills the remaining columns such that:
@@ -138,11 +138,16 @@ int load_matrix(int m[][C], char *file_name)
     return 0; }
 
   else {
-    int r,c;
+    int r = 0,c;
 
-    for(r = 0; r < R; r++) 
+    while(r < R && fscanf(fp, "%d", &m[r][0]) == 1)
     {
-      fscanf(fp,"%d" ,&m[r][0]); 
+      r++;
+    }
+    while(r < R)
+    {
+      m[r][0] = 0;
+      r++;
     }
 
     fclose(fp);
@@ -194,9 +199,9 @@ void search_on_matrix(int m[][C], int x, int *p1, int *p2)
   *p1 = -1;
   *p2 = -1;
 
-  for(c = 0; c < C; c++) 
+  for(c = 0; c < C &&  *p1 == -1; c++) 
   {
-    for(r = 0; r < R; r++)
+    for(r = 0; r < R &&  *p1 == -1; r++)
     {
       if(*p1 == -1 && m[r][c] == x) {
         *p1 = r;
@@ -218,7 +223,7 @@ int row_product(int m[][C], int row)
       return p; }
 
   else {
-    return 1; }
+    return -1; }
 }
 
 int main(int argc, char *argv[])
@@ -249,7 +254,7 @@ int main(int argc, char *argv[])
   scanf("%d",&row);
 
   res = row_product(m,row);
-  if(res == 0) {
+  if(res == -1) {
   printf("Error invalid row\n"); }
     else {
       printf("Row value: %d\n",res); }
