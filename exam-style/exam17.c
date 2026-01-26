@@ -123,3 +123,86 @@ Write a `main` function that:
 
   * Calls the function that computes the product of the row and prints the result.
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#define R 5
+#define C 4
+
+int load_matrix(int m[][C], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name, "r");
+
+  if(fp == NULL) {
+    return 0; }
+
+  else {
+    int r,c;
+
+    for(r = 0; r < R; r++) 
+    {
+      fscanf(fp,"%d" ,&m[r][0]); 
+    }
+
+    fclose(fp);
+
+    for(r = 0; r < R; r++)
+    {
+      for(c = 1; c < C; c++)
+      {
+        m[r][c] = m[r][c-1]+1; 
+      }
+    }
+
+    return 1;
+  }
+}
+
+void print_matrix(int m[][C])
+{
+  int r,c;
+  
+  printf("\n\t\t");
+  for(c = 0; c < C; c++)
+  {
+    printf("%d\t",c);
+  }
+
+  printf("\n\t\t");
+  for(c = 0; c < C; c++)
+  {
+    printf("*\t");
+  }
+  printf("\n");
+
+  for(r = 0; r < R; r++)
+  {
+    printf("%d\t*\t",r);
+    for(c = 0; c < C; c++)
+    {
+      printf("%d\t",m[r][c]);
+    }
+    printf("\n");
+  }
+  printf("\n");
+}
+
+int main(int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("Error - file missing as argument\n");
+    exit(1); }
+
+  int m[R][C],res;
+
+  res = load_matrix(m,argv[1]);
+  if(res == 0) {
+    printf("Error - file not found matrix not loaded\n");
+    exit(2); }
+
+  print_matrix(m);
+
+
+  return 0;
+}
