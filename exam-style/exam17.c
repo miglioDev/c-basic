@@ -188,13 +188,46 @@ void print_matrix(int m[][C])
   printf("\n");
 }
 
+void search_on_matrix(int m[][C], int x, int *p1, int *p2)
+{
+  int r,c;
+  *p1 = -1;
+  *p2 = -1;
+
+  for(c = 0; c < C; c++) 
+  {
+    for(r = 0; r < R; r++)
+    {
+      if(*p1 == -1 && m[r][c] == x) {
+        *p1 = r;
+        *p2 = c;
+      }
+    }
+  }
+}
+
+int row_product(int m[][C], int row)
+{
+  int p = 1,c;
+
+  if(0 <= row && row < R) {
+    for(c = 0; c < C; c++)
+    {
+      p = p*m[row][c]; 
+    } 
+      return p; }
+
+  else {
+    return 1; }
+}
+
 int main(int argc, char *argv[])
 {
   if(argc != 2) {
     printf("Error - file missing as argument\n");
     exit(1); }
 
-  int m[R][C],res;
+  int m[R][C],res,x,i,j,row;
 
   res = load_matrix(m,argv[1]);
   if(res == 0) {
@@ -203,6 +236,23 @@ int main(int argc, char *argv[])
 
   print_matrix(m);
 
+  printf("Enter a number to search: ");
+  scanf("%d",&x);
+
+  search_on_matrix(m,x,&i,&j);
+  if(i == -1) {
+  printf("Value, not found\n"); }
+    else {
+      printf("Value found in:\n row: %d\n column: %d\n\n",i,j); }
+
+  printf("Enter a row: ");
+  scanf("%d",&row);
+
+  res = row_product(m,row);
+  if(res == 0) {
+  printf("Error invalid row\n"); }
+    else {
+      printf("Row value: %d\n",res); }
 
   return 0;
 }
