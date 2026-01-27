@@ -1,0 +1,139 @@
+/*
+EXAM 01 – Programming in C
+
+Implement the following functions and a main program.
+
+
+### Function 1 — Load filtered values from file
+
+Write a function that:
+
+* Takes as input:
+
+  * an integer array `data`,
+  * the maximum size of the array `size`,
+  * an integer threshold `limit`,
+  * a pointer to an open text file.
+* Reads integers from the file and copies into the array only the values that are:
+
+  * **positive**,
+  * **strictly greater than `limit`**,
+  * and only while there is still space available in the array.
+* Appends the value `-1` as a **sentinel** to indicate the end of valid data.
+* Returns:
+
+  * `1` if the file contains no values,
+  * `0` otherwise.
+
+**Example**
+
+* `limit = 12`
+* File content:
+  `18 5 9 25 -3 12 4 0 31 -8 18 -50 25`
+* Resulting array:
+  `18 25 31 18 25 -1`
+
+---
+
+### Function 2 — Display the array with sentinel
+
+Write a function that:
+
+* Takes as input an integer array terminated by the sentinel `-1`.
+* If the array contains no valid values, prints:
+  `"empty array"`.
+* Otherwise, displays the content of the array by printing:
+
+  * indices in one column,
+  * corresponding values in another column,
+    following the format shown in the example.
+* Does not return any value.
+
+**Example output**
+
+indices:      values:
+0             18
+1             25
+2             31
+3             18
+4             25
+
+---
+
+### Function 3 — Count matching values using pointers
+
+Write a function that **uses pointers and pointer arithmetic** and:
+
+* Takes as input:
+
+  * an integer array terminated by `-1`,
+  * an integer value `key`,
+  * two integer parameters passed by reference (`countEq`, `countDiff`).
+* Stores in:
+
+  * `countEq` the number of elements in the array equal to `key`,
+  * `countDiff` the number of elements different from `key`.
+* Does not return any value.
+
+**Example**
+
+* `key = 25`
+* Array: `18 25 31 18 25 -1`
+* Result:
+  `countEq = 2`, `countDiff = 3`
+
+---
+
+### Function 4 — Check array symmetry
+
+Write a function that:
+
+* Takes as input an integer array terminated by `-1`.
+* Returns:
+
+  * `1` if the array contains **at least two values** and is **symmetric**
+    (the first half is equal to the second half),
+  * `0` otherwise.
+
+**Examples**
+
+* `18 25 31 18 25 -1` → `1` (symmetric)
+* `18 25 31 18 30 -1` → `0` (not symmetric)
+
+---
+
+### `main` function
+
+Write a `main` function that:
+
+* Receives **exactly two command-line arguments**:
+
+  1. the name of a text file,
+  2. an integer value.
+* If the number of arguments is incorrect:
+
+  * prints `"ERROR 1: invalid number of arguments"`
+  * terminates returning `1`.
+* Checks whether the file exists.
+
+  * If not, prints `"ERROR 2: file <name> not found"`
+  * terminates returning `2`.
+* Checks whether the second argument represents a valid integer.
+
+  * If not, prints `"ERROR 3: <value> is not a valid number"`
+  * terminates returning `3`.
+* Declares an integer array of size **40** (defined as a constant).
+* Calls the function that loads data from the file.
+
+  * Then prints `"the file is empty"` or `"the file is not empty"`.
+  * Closes the file.
+* Calls the function that displays the array.
+* Asks the user to **enter an integer value**.
+
+  * Calls the counting function and prints how many values are equal to and different from the entered value.
+* Calls the function that checks whether the array is symmetric.
+
+  * Prints `"the array is symmetric"` or `"the array is not symmetric"`.
+* Terminates returning `0`.
+
+  */
