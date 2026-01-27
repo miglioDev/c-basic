@@ -180,6 +180,41 @@ void print_vector(int v[DIM])
   }
 }
 
+void difference(int *v, int number, int *p1, int *p2)
+{
+  *p1 = 0;
+  *p2 = 0;
+
+  int i;
+
+  for(i = 0; *(v+i) != -1; i++)
+  {
+    if(*(v+i) == number) {
+    (*p1)++; }
+      else {
+      (*p2)++; }
+  }
+}
+
+int simmetry(int v[DIM])
+{
+  int i,j = -1,sim = 1;
+
+  for(i = 0; v[i] != -1; i++)
+  { 
+    j++;           //j last index 
+  }
+
+  for(i = 0; i < j && sim; i++)
+  {
+    if(v[i] != v[j]) {
+      sim = 0; }
+    j--;
+  }
+
+  return sim;
+}
+
 int main(int argc, char *argv[])
 {
   if(argc != 3) {
@@ -194,7 +229,7 @@ int main(int argc, char *argv[])
     exit(2); }
 
   int const dim = 40;
-  int x,res;
+  int x,res,number,equal,non_equal;
   x = atoi(argv[2]);
 
   if(x == 0) {
@@ -213,6 +248,20 @@ int main(int argc, char *argv[])
   fclose(fp);
 
   print_vector(v);
+
+  printf("Enter a number: ");
+  scanf("%d",&number);
+
+  difference(v,number,&equal,&non_equal);
+  printf("\nEqual = %d",equal);
+  printf("\nNon equal = %d",non_equal);
+
+  res = simmetry(v);
+
+  if(res == 0) {
+  printf("\nNon simmetric"); }
+    else {
+      printf("\nSimmetric");}
 
   return 0;
 }
