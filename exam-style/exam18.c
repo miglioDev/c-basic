@@ -205,6 +205,9 @@ int simmetry(int v[DIM])
     j++;           //j last index 
   }
 
+  if(j < 1) {
+    sim = 0; }
+
   for(i = 0; i < j && sim; i++)
   {
     if(v[i] != v[j]) {
