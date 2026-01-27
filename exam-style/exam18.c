@@ -150,21 +150,34 @@ int copy_from_file(int v[],int dim, int x, FILE *fp)
   while(fscanf(fp, "%d", &value) != EOF && i < DIM-1)
   {                                                    
     if(value > 0 && value > x) {
-      v[i] = value; }
-    i++;
+      v[i] = value;
+      i++; }
   }
 
   if(i == 0) {
+    v[0] = -1;
     return 1; }
   
   else {
-  v[i] = -1;   // sentinel value
-  return 0; }
+    v[i] = -1;   // sentinel value
+    return 0; }
 }
 
-void print_vector(int v[])
+void print_vector(int v[DIM])
 {
+  int i;
 
+  if(v[0] == -1) {
+    printf("Empty array\n");
+    return; }
+
+  else {
+    printf("\nIndex:\tValue:\n");
+    for(i = 0; v[i] != -1; i++)
+    {
+      printf("%d\t%d\n",i,v[i]);
+    }
+  }
 }
 
 int main(int argc, char *argv[])
@@ -196,6 +209,10 @@ int main(int argc, char *argv[])
 
   else {
     printf("the file is not empty\n"); }
+  
+  fclose(fp);
+
+  print_vector(v);
 
   return 0;
 }
