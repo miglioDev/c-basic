@@ -137,3 +137,65 @@ Write a `main` function that:
 * Terminates returning `0`.
 
   */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#define DIM 40
+
+int copy_from_file(int v[],int dim, int x, FILE *fp)
+{
+  int i = 0,value;
+
+  while(fscanf(fp, "%d", &value) != EOF && i < DIM-1)
+  {                                                    
+    if(value > 0 && value > x) {
+      v[i] = value; }
+    i++;
+  }
+
+  if(i == 0) {
+    return 1; }
+  
+  else {
+  v[i] = -1;   // sentinel value
+  return 0; }
+}
+
+void print_vector(int v[])
+{
+
+}
+
+int main(int argc, char *argv[])
+{
+  if(argc != 3) {
+    printf("ERROR 1: invalid number of arguments");
+    exit(1); }
+
+  FILE *fp;
+  fp = fopen(argv[1], "r");
+
+  if(fp == NULL) {
+    printf("ERROR 2: file %s not found",argv[1]);
+    exit(2); }
+
+  int const dim = 40;
+  int x,res;
+  x = atoi(argv[2]);
+
+  if(x == 0) {
+    printf("ERROR 3: %s is not a valid number",argv[2]);
+    exit(3); }
+
+  int v[dim];
+
+  res = copy_from_file(v,dim,x,fp);
+  if(res == 1) {
+    printf("the file is empty\n"); }
+
+  else {
+    printf("the file is not empty\n"); }
+
+  return 0;
+}
