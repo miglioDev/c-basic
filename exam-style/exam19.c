@@ -32,13 +32,7 @@ A function that:
 Example output:
 
 ```
-0: A
-1: L
-2: E
-3: S
-4: S
-5: I
-6: O
+0: A  1: L  2: E  3: S  4: S  5: I  6: O
 ```
 
 Example:
@@ -123,6 +117,7 @@ int load_string_on_vector(char s[DIM])
   {
     printf("Enter a string: ");
     scanf("%s",string);
+    strcpy(s,string);
 
     len = strlen(string);
     all_upper = 1;
@@ -152,13 +147,49 @@ int load_string_on_vector(char s[DIM])
     return 0; }
 }
 
+int string_visual(char s[DIM])
+{
+  int i,len;
+  len = strlen(s);
+
+  for(i = 0; i < len; i++)
+  {
+    printf("%d: %c\t",i,s[i]);
+  }
+
+  return len;
+}
+
+void first_and_last(char s[DIM], char *c1, char *c2)
+{
+  int len,i;
+
+  len = strlen(s);
+
+  for(i = 0; i < len; i++)
+  {
+    if(i == 0) {
+      *c1 = *(s+i);
+      *c2 = *(s+i); }
+
+      else {
+        if(*(s+i) < *c1 ) {
+          *c1 = *(s+i); }
+
+        if(*(s+i) > *c2) {
+          *c2 = *(s+i); }
+      }
+  }
+}
+
 int main(int argc, char *argv[])
 {
   if(argc != 2) {
     printf("ERROR 1: invalid number of parameters\n");
     exit(EXIT_FAILURE); }
 
-  int loaded;
+  int loaded,characters;
+  char a,b;
   char s[DIM];
 
   loaded = load_string_on_vector(s);
@@ -166,8 +197,12 @@ int main(int argc, char *argv[])
   if(loaded == 0) {
   printf("ERROR 2: maximum number of attempts reached\n");
   exit(2); }
-    else {
-      printf("Corret!\n"); }
+
+  characters = string_visual(s);
+    printf("\nThe string contains %d characters\n",characters);
+
+  first_and_last(s,&a,&b);
+    printf("First char = %c, last char %c (alphabetical)\n",a,b);
 
   return 0;
 }
