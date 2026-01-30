@@ -182,13 +182,37 @@ void first_and_last(char s[DIM], char *c1, char *c2)
   }
 }
 
+int write_on_file(char s[DIM], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name, "w");
+
+  int len,i,counter;
+  len = strlen(s);
+  counter = 0;
+
+  for(i = 0; i < len; i++)
+  {
+    if(s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U') {
+      if(i == 0) {
+      fprintf(fp, "%c",s[i]);
+      counter++; }
+        else {
+          fprintf(fp, ",%c",s[i]);
+          counter+=2; }
+    }
+  }
+
+  return counter;
+}
+
 int main(int argc, char *argv[])
 {
   if(argc != 2) {
     printf("ERROR 1: invalid number of parameters\n");
     exit(EXIT_FAILURE); }
 
-  int loaded,characters;
+  int loaded,characters,copied_on_file;
   char a,b;
   char s[DIM];
 
@@ -203,6 +227,9 @@ int main(int argc, char *argv[])
 
   first_and_last(s,&a,&b);
     printf("First char = %c, last char %c (alphabetical)\n",a,b);
+
+  copied_on_file = write_on_file(s,argv[1]);
+  printf("%d characters have been copied on file %s\n",copied_on_file,argv[1]);
 
   return 0;
 }
