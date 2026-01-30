@@ -10,7 +10,7 @@ A function that:
 * asks the user to *“enter a string”* and stores the input into the array;
 * the string must:
 
-  * contain at least 4 characters;
+  * contain at least 3 characters;
   * consist only of uppercase letters (A–Z);
   * start and end with a vowel.
 * If the string does not satisfy the requirements, it prints
@@ -19,7 +19,7 @@ A function that:
 * The function returns **1** if a valid string is eventually entered, otherwise **0**.
 
 Example of valid strings:
-`EVA`, `ANNA`, `ELENA`, `OTTORE`, `ULISSE`, `ALESSIO`
+`EVA`, `ANA`, `ELENA`, `OTTORE`, `ULISSE`
 
 ---
 
@@ -107,3 +107,67 @@ The `main` function:
   */
 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define DIM 30
+
+int load_string_on_vector(char s[DIM])
+{
+  char string[DIM];
+  int attempt,len,all_upper,i,vowel,cond1,cond2,f;
+
+  attempt = 0;
+  do
+  {
+    printf("Enter a string: ");
+    scanf("%s",string);
+
+    len = strlen(string);
+    all_upper = 1;
+
+    for(i = 0; i < len; i++)
+    {
+      if(!isupper(string[i])) {  
+        all_upper = 0; }
+    }
+
+    cond1 = (string[0] == 'A' || string[0] == 'E' || string[0] == 'I' || string[0] == 'O' || string[0] == 'U');
+    cond2 = (string[len-1] == 'A' || string[len-1] == 'E' || string[len-1] == 'I' || string[len-1] == 'O' || string[len-1] == 'U');
+    vowel = (cond1 && cond2);
+
+    f = (len >= 3 && vowel && all_upper); 
+    
+    if(!f) {
+      printf("ERROR: the string does not meet the constraints\n");
+      attempt++; }
+
+  }
+  while(!f && attempt < 3);
+
+  if(f) return 1;
+
+  else {
+    return 0; }
+}
+
+int main(int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("ERROR 1: invalid number of parameters\n");
+    exit(EXIT_FAILURE); }
+
+  int loaded;
+  char s[DIM];
+
+  loaded = load_string_on_vector(s);
+
+  if(loaded == 0) {
+  printf("ERROR 2: maximum number of attempts reached\n");
+  exit(2); }
+    else {
+      printf("Corret!\n"); }
+
+  return 0;
+}
