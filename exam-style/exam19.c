@@ -122,7 +122,7 @@ int load_string_on_vector(char s[DIM])
     len = strlen(string);
     all_upper = 1;
 
-    for(i = 0; i < len; i++)
+    for(i = 0; i < len && all_upper; i++)
     {
       if(!isupper(string[i])) {  
         all_upper = 0; }
@@ -202,6 +202,7 @@ int write_on_file(char s[DIM], char *file_name)
           counter+=2; }
     }
   }
+  fclose(fp);
 
   return counter;
 }
