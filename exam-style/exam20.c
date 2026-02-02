@@ -134,3 +134,33 @@ The `main` function:
 * Terminates returning `0`.
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 5
+
+int matrix_loading(int m[][DIM], int a, int b, char *file_name)
+{
+  FILE *fp;
+
+  
+}
+
+int main (int argc, char *argv[])
+{
+  if(argc != 4) {
+    printf("ERROR 1: invalid number of parameters\n");
+    exit(1); }
+
+  if(atoi(argv[1]) == 0 || atoi(argv[2]) == 0 || atoi(argv[1]) >= atoi(argv[2])) {
+    printf("ERROR 2: parameters are not valid integers\n");
+    exit(2); }
+
+  int m[DIM][DIM];
+  int res;
+
+  res = matrix_loading(m, argv[1], argv[2], argv[3]);
+  
+
+
+  return 0;
+}
