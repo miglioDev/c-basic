@@ -199,6 +199,29 @@ void print_matrix(int m[][DIM])
   }
 }
 
+void column_op(int m[][DIM], int c, int *p1, float *p2)
+{
+  if(c > DIM || c < 0) {
+    *p1 = -1;
+    *p2 = -1;
+    return; }
+
+  else {
+    int i;
+    *p1 = 0;
+    *p2 = 0;
+
+    for(i = 0; i < DIM; i++)
+    {
+      *p1 = *p1 + *(*(m+i)+c); 
+    }
+
+    *p2 = (float) *p1 / DIM;
+  }
+
+
+}
+
 int main (int argc, char *argv[])
 {
   if(argc != 4) {
@@ -210,7 +233,8 @@ int main (int argc, char *argv[])
     exit(2); }
 
   int m[DIM][DIM];
-  int res;
+  int res,column,sum;
+  float average;
 
   res = matrix_loading(m, atoi(argv[1]), atoi(argv[2]), argv[3]);
   if(res == 1) {
@@ -219,6 +243,15 @@ int main (int argc, char *argv[])
 
   print_matrix(m);
 
+  printf("\n\nEnter a column: ");
+  scanf("%d",&column);
+
+  column_op(m,column,&sum,&average);
+  if(sum == -1) {
+    printf("\nThe column %d does not exist\n",column); }
+  
+  else {
+    printf("The sum of the column %d is %d and the average is %.2f",column,sum,average); }
 
   return 0;
 }
