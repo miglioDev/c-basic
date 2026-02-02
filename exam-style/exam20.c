@@ -218,22 +218,40 @@ void column_op(int m[][DIM], int c, int *p1, float *p2)
 
     *p2 = (float) *p1 / DIM;
   }
+}
 
+int diagonal_comp(int m[][DIM])
+{
+  int row,left_d,right_d,isequal;
+  row = 0;
+  left_d = 0;
+  right_d = DIM-1;
+  isequal = 1;
 
+  while(row < DIM) { 
+    if(m[row][left_d] != m[row][right_d]) { 
+      isequal = 0; }
+
+    left_d++;
+    right_d--;
+    row++;
+  }
+
+  return isequal;
 }
 
 int main (int argc, char *argv[])
 {
   if(argc != 4) {
     printf("ERROR 1: invalid number of parameters\n");
-    exit(1); }
+    exit(EXIT_FAILURE); }
 
   if(atoi(argv[1]) == 0 || atoi(argv[2]) == 0 || atoi(argv[1]) >= atoi(argv[2])) {
     printf("ERROR 2: parameters are not valid integers\n");
     exit(2); }
 
   int m[DIM][DIM];
-  int res,column,sum;
+  int res,column,sum,diagonal;
   float average;
 
   res = matrix_loading(m, atoi(argv[1]), atoi(argv[2]), argv[3]);
@@ -251,7 +269,13 @@ int main (int argc, char *argv[])
     printf("\nThe column %d does not exist\n",column); }
   
   else {
-    printf("The sum of the column %d is %d and the average is %.2f",column,sum,average); }
+    printf("\nThe sum of the column %d is %d and the average is %.2f",column,sum,average); }
+
+  diagonal = diagonal_comp(m);
+  if(diagonal) {
+  printf("\nThe diagonal are equal"); }
+    else {
+    printf("\nThe diagonal are NOT equal"); }
 
   return 0;
 }
