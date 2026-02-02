@@ -147,9 +147,9 @@ int matrix_loading(int m[][DIM], int a, int b, char *file_name)
   
   else {
     int x,r = 0,c = 0;
-    while(fscanf(fp, "%d", &x) != EOF && r < DIM)
+    while(fscanf(fp, "%d", &x) != EOF && r < DIM && c < DIM)
     {
-      if(a < x && x < b) {
+      if(x > 0 && a < x && x < b) {
         m[r][c] = x;
         c++; }
       
@@ -199,9 +199,9 @@ void print_matrix(int m[][DIM])
   }
 }
 
-void column_op(int m[][DIM], int c, int *p1, float *p2)
+void column_op(int (*m)[DIM], int c, int *p1, float *p2)
 {
-  if(c > DIM || c < 0) {
+  if(c >= DIM || c < 0) {
     *p1 = -1;
     *p2 = -1;
     return; }
@@ -209,14 +209,13 @@ void column_op(int m[][DIM], int c, int *p1, float *p2)
   else {
     int i;
     *p1 = 0;
-    *p2 = 0;
 
     for(i = 0; i < DIM; i++)
     {
       *p1 = *p1 + *(*(m+i)+c); 
     }
 
-    *p2 = (float) *p1 / DIM;
+    *p2 = ((float) *p1) / DIM;
   }
 }
 
@@ -228,7 +227,7 @@ int diagonal_comp(int m[][DIM])
   right_d = DIM-1;
   isequal = 1;
 
-  while(row < DIM) { 
+  while(row < DIM && isequal) { 
     if(m[row][left_d] != m[row][right_d]) { 
       isequal = 0; }
 
