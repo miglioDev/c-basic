@@ -141,8 +141,62 @@ The `main` function:
 int matrix_loading(int m[][DIM], int a, int b, char *file_name)
 {
   FILE *fp;
-
+  fp = fopen(file_name, "r");
+  if(fp == NULL) {
+    return 1; }
   
+  else {
+    int x,r = 0,c = 0;
+    while(fscanf(fp, "%d", &x) != EOF && r < DIM)
+    {
+      if(a < x && x < b) {
+        m[r][c] = x;
+        c++; }
+      
+      if(c == DIM) {
+        c = 0;
+        r++; }
+    }
+    fclose(fp);
+
+    while(r < DIM) {
+      m[r][c] = 0;
+      c++;
+        if(c == DIM) {
+        c = 0;
+        r++; }
+    }
+
+    return 0;
+  }
+}
+
+void print_matrix(int m[][DIM])
+{
+  int r,c;
+
+  printf("\n\t\t");
+  for(c = 0; c < DIM; c++)
+  {
+    printf("%d\t",c);
+  }
+
+  printf("\n\t\t");
+  for(c = 0; c < DIM; c++)
+  {
+    printf("-\t");
+  }
+
+  printf("\n");
+  for(r = 0; r < DIM; r++)
+  {
+    printf("%d\t|\t",r);
+    for(c = 0; c < DIM; c++)
+    {
+      printf("%d\t",m[r][c]);
+    }
+    printf("\n");
+  }
 }
 
 int main (int argc, char *argv[])
@@ -158,8 +212,12 @@ int main (int argc, char *argv[])
   int m[DIM][DIM];
   int res;
 
-  res = matrix_loading(m, argv[1], argv[2], argv[3]);
-  
+  res = matrix_loading(m, atoi(argv[1]), atoi(argv[2]), argv[3]);
+  if(res == 1) {
+    printf("ERROR 3: file %s not found\n", argv[3]);
+    exit(3); }
+
+  print_matrix(m);
 
 
   return 0;
