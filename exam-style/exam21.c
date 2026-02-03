@@ -107,3 +107,81 @@ Implement the following functions and a main program.
 * Calls the function to find the first and last words ending with that character and displays the results.
 * Calls the function to remove the first string, then calls the display function again to show the updated vector.
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define DIM 30
+
+int load_from_file(char m[][DIM], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name, "r");
+  int op;
+
+  if(fp == NULL) {
+    op = -1; }
+  
+  else {
+    char buffer[DIM];
+    int copied,vowel,i,len; 
+    copied = 0;
+    
+    while(fscanf(fp, "%s", buffer) != EOF && copied < DIM)
+    {
+      vowel = 0;
+      len = strlen(buffer);
+
+      for(i = 0; i < len; i++)
+      {
+        if(buffer[i] == 'a' || buffer[i] == 'e' || buffer[i] == 'i' || buffer[i] == 'o' || buffer[i] == 'u') {
+          vowel++; }
+      }
+
+      if(vowel >= 3) {
+        strcpy(m[copied], buffer);
+        copied++; }
+    }
+    fclose(fp);
+
+    op = copied; }
+
+  return op;
+}
+
+void print_matrix(char m[][DIM], int s_loaded)
+{
+  int i;
+
+  printf("\nIndex:\t");
+  for(i = 0; i < s_loaded; i++)
+  {
+    printf("\t%d",i);
+  }
+
+  printf("\nString:\t");
+  for(i = 0; i < s_loaded; i++)
+  {
+    printf("\t%s",m[i]);
+  }
+}
+
+int main(int argc, char *argv[])
+{
+  if(argc != 2) {
+    printf("Error 1: wrong number of argument\n");
+    exit(1); }
+
+  char m[DIM][DIM];
+  int s_loaded;
+    
+  s_loaded = load_from_file(m,argv[1]);
+  if(s_loaded == -1) {
+    printf("Error 2: file %s does not exist\n", argv[1]);
+    exit(2); }
+
+  print_matrix(m,s_loaded);
+  
+
+  return 0;
+}
