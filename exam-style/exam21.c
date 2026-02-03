@@ -35,18 +35,9 @@ Implement the following functions and a main program.
 * Prints the indices and strings in two separate rows, as in the example:
 
   ```
-  Indices
-  Strings
-  0
-  Berlin
-  1
-  Oslo
-  2
-  Paris
-  3
-  Rome
-  4
-  London
+  Indices   0       1      2  ...
+  Strings   Berlin  Oslo   ...
+
   ```
 * Does not return any value.
 
@@ -168,22 +159,20 @@ void print_matrix(char m[][DIM], int s_loaded)
 
 void char_search(char m[][DIM], int s_loaded, char c, int *d1, int *d2)
 {
-  int i,j,len;
+  int i,j;
   *d1 = -1;
   *d2 = -1;
 
   for(i = 0; i < s_loaded; i++)
   {
-    len = strlen(m[i]);
+    j = strlen(m[i])-1;
 
-    for(j = 0; j < len; j++)
-    {
-      if(*(*(m+i)+j) == c) {
+      if(c == *(*(m+i)+j)) {
         if(*d1 == -1) {
           *d1 = i; }
         *d2 = i;
       }
-    }
+    
   }
 }
 
@@ -191,10 +180,11 @@ int remove_string(char m[][DIM], int s_loaded)
 {
   int i;
 
-  for(i = 0; i < s_loaded; i++)
+  for(i = 0; i < s_loaded-1; i++)
   {
     strcpy(m[i],m[i+1]);
   }
+  m[i][0] = '\0';
   s_loaded--;
 
   return s_loaded;
@@ -227,7 +217,7 @@ int main(int argc, char *argv[])
     printf("\nChar found in %d and %d",first,last); }
 
   n = remove_string(m,s_loaded);
-  printf("Updated number of string = %d\n",n);
+  printf("\nUpdated number of string = %d\n",n);
 
   return 0;
 }
