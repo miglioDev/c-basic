@@ -156,14 +156,48 @@ void print_matrix(char m[][DIM], int s_loaded)
   printf("\nIndex:\t");
   for(i = 0; i < s_loaded; i++)
   {
-    printf("\t%d",i);
+    printf("\t\t%d",i);
   }
 
   printf("\nString:\t");
   for(i = 0; i < s_loaded; i++)
   {
-    printf("\t%s",m[i]);
+    printf("\t\t%s",m[i]);
   }
+}
+
+void char_search(char m[][DIM], int s_loaded, char c, int *d1, int *d2)
+{
+  int i,j,len;
+  *d1 = -1;
+  *d2 = -1;
+
+  for(i = 0; i < s_loaded; i++)
+  {
+    len = strlen(m[i]);
+
+    for(j = 0; j < len; j++)
+    {
+      if(*(*(m+i)+j) == c) {
+        if(*d1 == -1) {
+          *d1 = i; }
+        *d2 = i;
+      }
+    }
+  }
+}
+
+int remove_string(char m[][DIM], int s_loaded)
+{
+  int i;
+
+  for(i = 0; i < s_loaded; i++)
+  {
+    strcpy(m[i],m[i+1]);
+  }
+  s_loaded--;
+
+  return s_loaded;
 }
 
 int main(int argc, char *argv[])
@@ -173,7 +207,8 @@ int main(int argc, char *argv[])
     exit(1); }
 
   char m[DIM][DIM];
-  int s_loaded;
+  int s_loaded,first,last,n;
+  char c;
     
   s_loaded = load_from_file(m,argv[1]);
   if(s_loaded == -1) {
@@ -182,6 +217,17 @@ int main(int argc, char *argv[])
 
   print_matrix(m,s_loaded);
   
+  printf("\nEnter a char: ");
+  scanf("%c", &c);
+
+  char_search(m,s_loaded,c,&first,&last);
+  if(first == -1) {
+  printf("\nChar not found\n"); }
+    else {
+    printf("\nChar found in %d and %d",first,last); }
+
+  n = remove_string(m,s_loaded);
+  printf("Updated number of string = %d\n",n);
 
   return 0;
 }
