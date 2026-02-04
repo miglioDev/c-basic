@@ -144,17 +144,13 @@ int load_from_file(int v[DIM], int x, char *file_name)
         if(temp > 0 && (temp%x) == 0) {
           v[copied] = temp;
           copied++; 
+          outcome = 1;
         }
       }
         
       fclose(fp);
 
       v[copied] = SENTINEL;
-
-      if(copied == 0) {
-      outcome = 0; }
-        else {
-        outcome = 1;}
     }
 
     return outcome;
@@ -174,38 +170,41 @@ void visual_vector(int v[DIM])
 void even_and_odd(int v[DIM], int *p1, int *p2)
 {
   int i;
-  *p1 = 1;
-  *p2 = 1;
+  *p1 = -1;
+  *p2 = -1;
 
   for(i = 0; v[i] != SENTINEL; i++)
   {
     if(v[i]%2 == 0) {
-      *p1 = *(v+i) * (*p1); }
-    else {
-      *p2 = *(v+i) * (*p2); } 
-  }
+      if(*p1 == -1) 
+        *p1 = *(v+i); 
+        else 
+        *p1 = (*p1) * (*(v+i)); }
 
-  if(*p1 == 1) {
-    *p1 = -1; }
-  if(*p2 == 1) {
-    *p2 = -1; }
+    else {
+      if(*p2 == -1) 
+      *p2 = *(v+i); 
+        else 
+        *p2 = (*p2) * (*(v+i)); }
+  }
 }
 
 int value_duplication(int v[DIM], int x)
 {
-  int i,pres,last_index,outcome;
+  int i,pres,pos,last_index,outcome;
   pres = 0;
   outcome = 0;
 
-  for(i = 0; v[i] != -1; i++)
+  for(i = 0; v[i] != SENTINEL; i++)
   {
     if(v[i] == x) {
-      pres = 1; }
+      pres++;
+      pos = i; }
     last_index = i;
   }
 
-  if(last_index < DIM-1 && pres) {
-    for(i = last_index += 2; v[i] != x; i--) 
+  if(last_index < DIM-1 && pres == 1) {
+    for(i = last_index += 2; i > pos; i--) 
     {
       v[i] = v[i-1];
     }
