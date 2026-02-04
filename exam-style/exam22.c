@@ -139,7 +139,7 @@ int load_from_file(int v[DIM], int x, char *file_name)
     else {
       copied = 0;
 
-      while(fscanf(fp, "%d", &temp) != EOF && copied < DIM)
+      while(fscanf(fp, "%d", &temp) != EOF && copied < DIM-1)
       {
         if(temp > 0 && (temp%x) == 0) {
           v[copied] = temp;
@@ -171,6 +171,50 @@ void visual_vector(int v[DIM])
   }
 }
 
+void even_and_odd(int v[DIM], int *p1, int *p2)
+{
+  int i;
+  *p1 = 1;
+  *p2 = 1;
+
+  for(i = 0; v[i] != SENTINEL; i++)
+  {
+    if(v[i]%2 == 0) {
+      *p1 = *(v+i) * (*p1); }
+    else {
+      *p2 = *(v+i) * (*p2); } 
+  }
+
+  if(*p1 == 1) {
+    *p1 = -1; }
+  if(*p2 == 1) {
+    *p2 = -1; }
+}
+
+int value_duplication(int v[DIM], int x)
+{
+  int i,pres,last_index,outcome;
+  pres = 0;
+  outcome = 0;
+
+  for(i = 0; v[i] != -1; i++)
+  {
+    if(v[i] == x) {
+      pres = 1; }
+    last_index = i;
+  }
+
+  if(last_index < DIM-1 && pres) {
+    for(i = last_index += 2; v[i] != x; i--) 
+    {
+      v[i] = v[i-1];
+    }
+    outcome = 1;
+  }
+
+  return outcome;
+}
+
 int main(int argc, char *argv[])
 {
   if(argc != 3) {
@@ -182,7 +226,8 @@ int main(int argc, char *argv[])
     printf("ERROR 2: %s is not a number\n",argv[1]);
     exit(2); }
 
-  int v[DIM],loaded;
+  int v[DIM],loaded,m_even,m_odd,y,mod;
+
   loaded = load_from_file(v,x,argv[2]);
   if(!loaded) {
     printf("ERROR 3: loading failed\n");
@@ -190,6 +235,24 @@ int main(int argc, char *argv[])
   
   visual_vector(v);
   
+  even_and_odd(v,&m_even,&m_odd);
+
+  if(m_even == -1) {
+  printf("There are no even values\n"); }
+    else {
+    printf("The result is: %d (even)\n",m_even); }
+
+  if(m_odd == -1) {
+  printf("There are no even values\n"); }
+    else {
+    printf("The result is: %d (odd)\n",m_odd); }
+
+  printf("Enter a value: ");
+  scanf("%d", &y);
+
+  mod = value_duplication(v,y);
+  if(mod) {
+  visual_vector(v); }
 
   return 0;
 }
