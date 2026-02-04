@@ -99,13 +99,17 @@ The `main` function must:
 
 * Receive *exactly two* command-line arguments:
 
-  1. the name of a text file.
+  1. an integer value,
+  2. the name of a text file.
      If the number of parameters is incorrect, display
      `"ERROR 1: wrong number of parameters"`
      and terminate returning `1`.
+* Verify that the first parameter is a valid integer. If not, display
+  `"ERROR 2: <parameter> is not a number"`
+  and terminate returning `2`.
 * Declare an integer array of fixed size `10`.
 * Call the function that loads the array from the file. If it fails, display
-  `"ERROR 2: loading failed"`
+  `"ERROR 3: loading failed"`
   and terminate returning `3`.
 * Call the function that displays the array.
 * Call the function that computes the products, then display:
@@ -120,67 +124,72 @@ The `main` function must:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define C 30
-#define R 10
+#define SENTINEL -1
+#define DIM 10
 
-int load_from_file(char m[][C], char *file_name)
+int load_from_file(int v[DIM], int x, char *file_name)
 {
   FILE *fp;
   fp = fopen(file_name, "r");
-  int outcome,copied,len;
+  int outcome,temp,copied;
 
   if(fp == NULL) {
     outcome = 0; }
 
     else {
       copied = 0;
-      char buffer[C];
-      int cond1,cond2;
 
-
-      while(fscanf(fp, "%s", buffer) != EOF && copied < R)
+      while(fscanf(fp, "%d", &temp) != EOF && copied < DIM)
       {
-        len = strlen(buffer);
-        cond1 = 0;
-        cond2 = 0;
-
-        if(buffer[0] == 'A' || buffer[0] == 'E' || buffer[0] == 'I' || buffer[0] == 'O' || buffer[0] == 'U') {
-          cond1 = 1; }
-        if(buffer[len-1] == 'a' || buffer[len-1] == 'e' || buffer[len-1] == 'i' || buffer[len-1] == 'o' || buffer[len-1] == 'u') {
-          cond2 = 1; }
-
-        if(cond1 && cond2) {
-          strcpy(m[copied],buffer);
-          copied++; }
-
-        fclose(fp);
-
-        while(copied < R) 
-        {
-          m[copied][0] = '\0';
-          copied++;
+        if(temp > 0 && (temp%x) == 0) {
+          v[copied] = temp;
+          copied++; 
         }
       }
+        
+      fclose(fp);
 
-      outcome = 1;
+      v[copied] = SENTINEL;
+
+      if(copied == 0) {
+      outcome = 0; }
+        else {
+        outcome = 1;}
     }
 
     return outcome;
 }
 
+void visual_vector(int v[DIM])
+{
+  int i;
+
+  printf("\nIndex:\tValues:\n");
+  for(i = 0; v[i] != SENTINEL; i++)
+  {
+    printf("%d\t%d\n",i,v[i]);
+  }
+}
+
 int main(int argc, char *argv[])
 {
-  if(argc != 2) {
+  if(argc != 3) {
     printf("ERROR 1: wrong number of parameters\n");
     exit(1); }
 
-  char m[R][C];
-  int loaded;
-
-  loaded = load_from_file(m,argv[1]);
-  if(!loaded) {
-    printf("ERROR 2: loading failed");
+  int x = atoi(argv[1]); 
+  if(x == 0) {
+    printf("ERROR 2: %s is not a number\n",argv[1]);
     exit(2); }
+
+  int v[DIM],loaded;
+  loaded = load_from_file(v,x,argv[2]);
+  if(!loaded) {
+    printf("ERROR 3: loading failed\n");
+    exit(3); }
+  
+  visual_vector(v);
+  
 
   return 0;
 }
