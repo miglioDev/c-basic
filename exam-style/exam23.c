@@ -127,18 +127,15 @@ The `main` function must:
 
 void load_matrix(int m[][DIM], int x)
 {
-  int r,c;
+  int r,c,even;
+  even = x;
 
   for(r = 0; r < DIM; r++)
   {
     for(c = 0; c < DIM; c++)
     {
-      if(r == 0 && c == 0) {
-      m[0][0] = x; }
-        else {
-          x+=2;
-          m[r][c] = x;
-        }
+      m[r][c] = even;
+      even = even+2;
     }
   }
 }
@@ -196,22 +193,24 @@ int write_on_file(int m[][DIM], int a, int b, char *file_name)
   int counter,c,r;
 
   FILE *fp;
-  fp = fopen(file_name, "w");
 
-  if(a < b) {
+  if(a < b) 
+  {
     counter = 0;
+    fp = fopen(file_name, "w");
+
     for(c = 0; c < DIM; c++)
     {
       for(r = 0; r < DIM; r++)
       {
-        if(m[r][c] > a && m[r][c] < b) {
+        if(m[r][c] >= a && m[r][c] <= b) {
           fprintf(fp,"%d\t", m[r][c]);
           counter++;
         }
       }
     }
+    fclose(fp);
   }
-  fclose(fp);
 
   return counter;
 }
