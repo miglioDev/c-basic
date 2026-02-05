@@ -119,3 +119,133 @@ The `main` function must:
   `"... values written to the file ..."`
 * Terminate returning `0`.
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 5
+
+void load_matrix(int m[][DIM], int x)
+{
+  int r,c;
+
+  for(r = 0; r < DIM; r++)
+  {
+    for(c = 0; c < DIM; c++)
+    {
+      if(r == 0 && c == 0) {
+      m[0][0] = x; }
+        else {
+          x+=2;
+          m[r][c] = x;
+        }
+    }
+  }
+}
+
+void print_matrix(int m[][DIM])
+{
+  int r,c;
+
+  printf("\n");
+  for(r = 0; r < DIM; r++)
+  {
+    printf("%d\t|",r);
+    for(c = 0; c < DIM; c++)
+    {
+      printf("\t%d",m[r][c]);
+    }
+    printf("\n");
+  }
+
+  printf("\t\t");
+  for(c = 0; c < DIM; c++)
+  {
+  printf("-\t");
+  }
+
+  printf("\n\t");
+  for(c = 0; c < DIM; c++)
+  {
+  printf("\t%d",c);
+  }
+}
+
+void sum_matrix(int m[][DIM], int *p1, int *p2)
+{
+  int r,c;
+
+  *p1 = 0;
+  *p2 = 0;
+
+  for(r = 0; r < DIM; r++)
+  {
+    for(c = 0; c < DIM; c++)
+    {
+      if(r == 0 || r == DIM-1 || c == 0 || c == DIM-1) {
+      *p1 = *p1 + *(*(m+r)+c); }
+      
+        else {
+        *p2 = *p2 + *(*(m+r)+c); }
+    }
+  }
+}
+
+int write_on_file(int m[][DIM], int a, int b, char *file_name)
+{
+  int counter,c,r;
+
+  FILE *fp;
+  fp = fopen(file_name, "w");
+
+  if(a < b) {
+    counter = 0;
+    for(c = 0; c < DIM; c++)
+    {
+      for(r = 0; r < DIM; r++)
+      {
+        if(m[r][c] > a && m[r][c] < b) {
+          fprintf(fp,"%d\t", m[r][c]);
+          counter++;
+        }
+      }
+    }
+  }
+  fclose(fp);
+
+  return counter;
+}
+
+int main(int argc, char *argv[])
+{
+  if(argc != 3) {
+    printf("ERROR 1: wrong number of parameters\n");
+    exit(1); }
+
+  int x,out_border,inner,a,b,copied;
+  x = atoi(argv[1]);
+
+  if(x <= 0 || x%2 == 1) {
+    printf("ERROR 2: value is not valid\n");
+    exit(2); }
+
+  int m[DIM][DIM];
+
+  load_matrix(m,x);
+  print_matrix(m);
+
+  sum_matrix(m,&out_border,&inner);
+    printf("\n\nThe sum of the out border value is: %d\n",out_border);
+    printf("The sum of the inner value of the matrix is: %d\n",inner);
+
+  printf("Enter two values\n");
+  printf("Value one: ");
+  scanf("%d", &a);
+  printf("\nValue two: ");
+  scanf("%d", &b);
+
+  copied = write_on_file(m,a,b,argv[2]);
+    printf("\n%d values have benn copied on file %s\n",copied,argv[2]);
+
+  return 0;
+}
