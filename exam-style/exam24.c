@@ -19,7 +19,7 @@ The function returns **0** if the file exists and at least one word has been cop
 ---
 
 A function that
-receives as input an array of strings and its size.
+receives as input an array of strings.
 
 The function prints the non-empty strings using the format **index: string**, one per line.
 
@@ -36,7 +36,7 @@ The function returns the number of printed strings.
 ---
 
 A function that, using **pointer arithmetic**,
-receives as input an array of strings, its size, a character **ch**, and two parameters (**first**, **last**).
+receives as input an array of strings, a character **ch**, and two parameters (**first**, **last**).
 
 The function assigns to **first** the index of the first string containing the character **ch** (in any position).
 It assigns to **last** the index of the last string containing the character **ch**.
@@ -48,7 +48,7 @@ The function does not return any value.
 ---
 
 A function that
-receives as input an array of strings and its size.
+receives as input an array of strings.
 
 For every non-empty string, the function replaces all lowercase vowels with the character `#` or another char like *.
 
@@ -159,14 +159,29 @@ void search_char(char (*m)[C],char c, int *p1, int *p2)
 
     for(j = 0; j < len; j++)
     {
-      if(*(*(m+r)+j) == c) 
+      if(*(*(m+r)+j) == c) {
         if(*p1 == -1) {
         *p1 = r; 
         *p2 = r;}
           else {
-            *p2 = r;}
+            *p2 = r;}}
     }
-    
+  }
+}
+
+void remove_and_replace(char m[][C])
+{
+  int r,j,len;
+
+  for(r = 0; m[r][0] != '\0'; r++)
+  {
+    len = strlen(m[r]);
+
+    for(j = 0; j < len; j++)
+    {
+      if(m[r][j] == 'a' || m[r][j] == 'e' || m[r][j] == 'i' || m[r][j] == 'o' || m[r][j] == 'u') {
+        m[r][j] = '*'; }
+    }
   }
 }
 
@@ -195,6 +210,9 @@ int main (int argc, char *argv[])
   printf("No result for char %c",c); }
     else {
     printf("First result in %d row, last in %d",a,b);}
+
+  remove_and_replace(m);
+  print_string(m);
 
   return 0;
 }
