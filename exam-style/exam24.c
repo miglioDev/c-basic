@@ -98,7 +98,7 @@ The **main** function must:
 
 int load_from_file(char m[][C], char *file_name)
 {
-  int res,r,len,cond1,cond2;
+  int res = 0,r,len,cond1,cond2;
   char buffer[C];
 
   FILE *fp;
@@ -124,6 +124,7 @@ int load_from_file(char m[][C], char *file_name)
         res = 1;
       }
     }
+    fclose(fp);
 
     while(r < R) 
     {
@@ -203,7 +204,7 @@ int main (int argc, char *argv[])
   printf("\n%d - string have been printed\n",printed);
   
   printf("Enter a char: ");
-  scanf("%c", &c);
+  scanf(" %c", &c);
 
   search_char(m,c,&a,&b);
   if(a == -1) {
