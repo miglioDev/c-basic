@@ -150,6 +150,30 @@ void visual_matrix(int m[][DIM])
   }
 }
 
+void matrix_stats(int m[][DIM], int x, int *p1, int *p2)
+{
+  int r,c;
+  *p1 = 0;
+  *p2 = 0;
+
+  for(r = 0; r < DIM; r++)
+  {
+    for(c = 0; c < DIM; c++)
+    {
+      if( *(*(m+r)+c) == x) {
+        (*p1)++; }
+    }
+  }
+
+  for(r = 0; r < DIM; r++)
+  {
+    for(c = 0; c < DIM; c++)
+    {
+      if( *(*(m+r)+c) > x) {
+        (*p2) = (*p2)+x; }
+    }
+  }
+}
 
 
 int main(int argc, char *argv[]) // ./a filename number
@@ -158,15 +182,19 @@ int main(int argc, char *argv[]) // ./a filename number
     printf("ERROR 1: invalid number of parameters\n");
     exit(1); }
 
-  int m[DIM][DIM],load_f;
+  int m[DIM][DIM],load_f,a,b,x;
 
   load_f = load_from_file(m,argv[1]);
   if(load_f == 0) {
     printf("ERROR 2: file not found\n");
     exit(2); }
 
-   visual_matrix(m);
+  visual_matrix(m);
 
+  x = atoi(argv[2]);
+  matrix_stats(m,x,&a,&b);
+  printf("Number %d found %d times\n",x,a);
+  printf("The sum of the values in the matrix greater than %d is %d\n",x,b);
 
 
 }
