@@ -150,7 +150,7 @@ void visual_matrix(int m[][DIM])
   }
 }
 
-void matrix_stats(int m[][DIM], int x, int *p1, int *p2)
+void matrix_stats(int (*m)[DIM], int x, int *p1, int *p2)
 {
   int r,c;
   *p1 = 0;
@@ -173,8 +173,29 @@ void matrix_stats(int m[][DIM], int x, int *p1, int *p2)
         (*p2) = (*p2)+x; }
     }
   }
+
+  printf("\n");
 }
 
+int row_swapper(int m[][DIM], int row1, int row2)
+{
+  int valid,k,c;
+  valid = 1;
+
+  if((row1 < 0 || row1 >= DIM) || (row2 < 0 || row2 >= DIM)) {
+    valid = 0; }
+  
+  if(valid) {
+    for(c = 0; c < DIM; c++)
+    {
+      k = m[row1][c]; 
+      m[row1][c] = m[row2][c];
+      m[row2][c] = k;
+    }
+  }
+
+  return valid;
+}
 
 int main(int argc, char *argv[]) // ./a filename number
 {
@@ -182,7 +203,7 @@ int main(int argc, char *argv[]) // ./a filename number
     printf("ERROR 1: invalid number of parameters\n");
     exit(1); }
 
-  int m[DIM][DIM],load_f,a,b,x;
+  int m[DIM][DIM],load_f,a,b,x,row1,row2,valid_row;
 
   load_f = load_from_file(m,argv[1]);
   if(load_f == 0) {
@@ -196,5 +217,16 @@ int main(int argc, char *argv[]) // ./a filename number
   printf("Number %d found %d times\n",x,a);
   printf("The sum of the values in the matrix greater than %d is %d\n",x,b);
 
+  printf("Great now pick two row to swap:\n");
+  printf("row 1 = ");
+  scanf("%d", &row1);
+  printf("row 2 = ");
+  scanf("%d", &row2);
+  valid_row = row_swapper(m,row1,row2);
+  if(valid_row == 0) {
+    printf("Swap not completed, invalid row\n");}
 
+  visual_matrix(m);
+
+  return 0;
 }
