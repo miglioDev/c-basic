@@ -102,24 +102,23 @@ int load_from_file(int m[][DIM], char *file_name)
 
     while(fscanf(fp, "%d", &x) != EOF && r < DIM)
     {
-      if(x%2 == 1 && x < 0) {
+      if(x%2 == 0 && x < 0) { 
         m[r][c] = x;
         c++;
 
-        if(c == DIM-1) {
+        if(c == DIM) {
           r++;
           c = 0; }
       }
     }
-
     fclose(fp);
 
-    while(r < DIM-1)
+    while(r < DIM)
     {
       m[r][c] = 0;
       c++;
-      
-      if(c == DIM-1) {
+
+      if(c == DIM) {
         r++;
         c = 0;
       }
@@ -127,6 +126,28 @@ int load_from_file(int m[][DIM], char *file_name)
   }
 
   return 1;
+}
+
+void visual_matrix(int m[][DIM])
+{
+  int r,c;
+
+  printf("\n\t");
+  for(c = 0; c < DIM; c++)
+  {
+    printf("%d\t",c);
+  }
+
+  printf("\n   -------------------------------\n");
+  for(r = 0; r < DIM; r++)
+  {
+    printf("%d |\t",r);
+    for(c = 0; c < DIM; c++)
+    {
+      printf("%d\t",m[r][c]);
+    }
+    printf("\n");
+  }
 }
 
 
@@ -144,7 +165,7 @@ int main(int argc, char *argv[]) // ./a filename number
     printf("ERROR 2: file not found\n");
     exit(2); }
 
-  
+   visual_matrix(m);
 
 
 
