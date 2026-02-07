@@ -82,3 +82,70 @@ The **main** function must:
 
 * Return **0**.
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 4
+
+int load_from_file(int m[][DIM], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name, "r");
+
+  if(fp == NULL) {
+    return 0; }
+  
+  else {
+    int x,r,c;
+    r = 0;
+    c = 0;
+
+    while(fscanf(fp, "%d", &x) != EOF && r < DIM)
+    {
+      if(x%2 == 1 && x < 0) {
+        m[r][c] = x;
+        c++;
+
+        if(c == DIM-1) {
+          r++;
+          c = 0; }
+      }
+    }
+
+    fclose(fp);
+
+    while(r < DIM-1)
+    {
+      m[r][c] = 0;
+      c++;
+      
+      if(c == DIM-1) {
+        r++;
+        c = 0;
+      }
+    }
+  }
+
+  return 1;
+}
+
+
+
+int main(int argc, char *argv[]) // ./a filename number
+{
+  if(argc != 3) {
+    printf("ERROR 1: invalid number of parameters\n");
+    exit(1); }
+
+  int m[DIM][DIM],load_f;
+
+  load_f = load_from_file(m,argv[1]);
+  if(load_f == 0) {
+    printf("ERROR 2: file not found\n");
+    exit(2); }
+
+  
+
+
+
+}
