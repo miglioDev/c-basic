@@ -170,7 +170,7 @@ void matrix_stats(int (*m)[DIM], int x, int *p1, int *p2)
     for(c = 0; c < DIM; c++)
     {
       if( *(*(m+r)+c) > x) {
-        (*p2) = (*p2)+x; }
+        (*p2) += *(*(m+r)+c); }
     }
   }
 
