@@ -154,7 +154,7 @@ void print_matrix(int m[][DIM])
   }
 }
 
-void matrix_stats(int m[][DIM], int k, int *p1, int *p2)
+void matrix_stats(int (*m)[DIM], int k, int *p1, int *p2)
 {
   int r,c;
   *p1 = 0;
@@ -164,17 +164,39 @@ void matrix_stats(int m[][DIM], int k, int *p1, int *p2)
   {
     for(c = 0; c < DIM; c++)
     {
-      if(m[r][c] > k && m[r][c]%2 == 0)
+      if( *(*(m+r)+c) > k && *(*(m+r)+c)%2 == 0)
       {
         (*p1)++; }
 
-      if(m[r][c] < k && m[r][c]%2 == 1) {
+      if(*(*(m+r)+c) < k && *(*(m+r)+c)%2 == 1) {
         (*p2)++; }
     }
   }
 }
 
+int sum_inc(int m[][DIM])
+{
+  int inc,r,c,sum1,sum2;
+  inc = 1;
+  sum1 = 0;
+  sum2 = 0;
 
+  for(r = 0; r < DIM-1 && inc; r++)
+  {
+    for(c = 0; c < DIM && inc; c++)
+    {
+      sum1 = sum1+m[r][c];
+      sum2 = sum2+m[r+1][c];
+    }
+
+    if(sum1 > sum2) {
+      inc = 0; }
+    sum1 = 0;
+    sum2 = 0;
+  }
+
+  return inc;
+}
 
 int main(int argc, char *argv[])
 {
@@ -182,7 +204,7 @@ int main(int argc, char *argv[])
     printf("ERROR 1: incorrect number of parameters");
     exit(1); }
 
-  int m[DIM][DIM],res,a,b,k;
+  int m[DIM][DIM],res,a,b,k,incr;
 
   res = load_from_file(m,argv[1]);
   if(res == 0) {
@@ -196,6 +218,11 @@ int main(int argc, char *argv[])
   printf("\nGreater than %d and even = %d",k,a);
   printf("\nLess than %d and odd = %d",k,b);
 
+  incr = sum_inc(m);
+  if(incr) {
+  printf("\nThe row sums are increasing"); }
+    else {
+    printf("\nThe row sums are NOT increasing"); }
 
   return 0;
 }
