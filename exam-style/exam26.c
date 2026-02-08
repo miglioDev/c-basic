@@ -154,13 +154,35 @@ void print_matrix(int m[][DIM])
   }
 }
 
+void matrix_stats(int m[][DIM], int k, int *p1, int *p2)
+{
+  int r,c;
+  *p1 = 0;
+  *p2 = 0;
+
+  for(r = 0; r < DIM; r++)
+  {
+    for(c = 0; c < DIM; c++)
+    {
+      if(m[r][c] > k && m[r][c]%2 == 0)
+      {
+        (*p1)++; }
+
+      if(m[r][c] < k && m[r][c]%2 == 1) {
+        (*p2)++; }
+    }
+  }
+}
+
+
+
 int main(int argc, char *argv[])
 {
   if(argc != 3) {
     printf("ERROR 1: incorrect number of parameters");
     exit(1); }
 
-  int m[DIM][DIM],res;
+  int m[DIM][DIM],res,a,b,k;
 
   res = load_from_file(m,argv[1]);
   if(res == 0) {
@@ -168,6 +190,12 @@ int main(int argc, char *argv[])
     exit(2); }
 
   print_matrix(m);
+
+  k = atoi(argv[2]);
+  matrix_stats(m,k,&a,&b);
+  printf("\nGreater than %d and even = %d",k,a);
+  printf("\nLess than %d and odd = %d",k,b);
+
 
   return 0;
 }
