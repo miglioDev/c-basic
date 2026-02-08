@@ -48,7 +48,7 @@ Example:
 
 • receives as input a square matrix of integers of size C, an integer value k, and two pointers p1 and p2.
 
-• Scans the matrix **column by column** and stores in p1 the number of even values greater than k, and in p2 the number of odd values less than k.
+• Scans the matrix **row by row** and stores in p1 the number of even values greater than k, and in p2 the number of odd values less than k (exclude the -1).
 
 • Returns nothing.
 
@@ -148,7 +148,10 @@ void print_matrix(int m[][DIM])
     printf("%d |\t",r);
     for(c = 0; c < DIM; c++)
     {
-      printf("%d\t",m[r][c]);
+      if(m[r][c] != -1) {
+      printf("%d\t",m[r][c]); }
+        else {
+          printf("\t"); }
     }
     printf("\n");
   }
@@ -164,12 +167,13 @@ void matrix_stats(int (*m)[DIM], int k, int *p1, int *p2)
   {
     for(c = 0; c < DIM; c++)
     {
+      if(*(*(m+r)+c) != -1) {
       if( *(*(m+r)+c) > k && *(*(m+r)+c)%2 == 0)
       {
         (*p1)++; }
 
       if(*(*(m+r)+c) < k && *(*(m+r)+c)%2 == 1) {
-        (*p2)++; }
+        (*p2)++; } }
     }
   }
 }
