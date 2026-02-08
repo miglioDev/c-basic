@@ -1,109 +1,173 @@
 /*
-EXAM 01 – Programming in C
+EXAM 26 – Programming in C
 
 Implement the following functions and a main program.
 
 
-A function that
-receives as input an (empty) array of strings, its size, and the name of a text file.
+## A function that
 
-It copies from the file into the array the words that have **odd length** and contain **at least one uppercase vowel**, checking that there is still available space in the array.
+• receives as input a square matrix of integers of constant size C and the name of a file.
 
-Example:
-file: `"Tree Apple PEAR banana Grape Mango"` → array:
+• Reads the integer values from the file and copies into the matrix only those that are **multiples of 3 and strictly greater than 10**, inserting them **row by row**. If the file ends before the matrix is completely filled, it fills the remaining cells with -1.
 
-* `"Tree"` (length 4, even → not valid)
-* `"Apple"` (length 5, odd, but no uppercase vowel → not valid)
-* `"PEAR"` (length 4, even → not valid)
-* `"banana"` (length 6, even → not valid)
-* `"Grape"` (length 5, odd, but no uppercase vowel → not valid)
+• Closes the file.
 
-So no string is copied.
-
-For clarity, corrected example:
-file: `"Tree Apple PEAR banana Grape Mango Orange"` → array:
-
-* `"Grape"` (length 5, odd, contains uppercase vowel `'A'` → valid)
-* `"Mango"` (length 5, odd, but no uppercase vowel → not valid)
-* `"Orange"` (length 6, even → not valid)
-
-Another corrected example with multiple valid strings:
-file: `"Tree Apple PEAR banana Grape Mango Apricot"` → array:
-
-* `"Grape"` (5, odd, contains uppercase vowel `'A'`)
-* `"Apricot"` (7, odd, contains uppercase vowel `'A'`)
-
-So the array contains: `"Grape"`, `"Apricot"`.
-
-If necessary, the array is filled with empty strings.
-
-The function returns the number of strings copied into the array.
-
----
-
-A function that
-receives as input an array of strings and its size.
-
-It displays the non-empty strings using the format `[index] string`, one per line.
-
-It returns the number of strings displayed.
-
----
-
-A function that, using pointer arithmetic,
-receives as input an array of strings, its size, a character (`c`), and two parameters (`p1`, `p2`).
-
-It assigns to `p1` the index of the **first** string in which the character `c` appears at an **even position** (0, 2, 4, …).
-
-It assigns to `p2` the index of the **last** string in which the character `c` appears at an **odd position** (1, 3, 5, …).
-
-If no occurrences are found, it assigns `-1` to the corresponding parameters.
-
-It does not return anything.
-
----
-
-A function that
-receives as input an array of strings and its size.
-
-For each non-empty string, it replaces every numeric digit (`0–9`) with the character `'#'`.
+• Returns 1 if the file exists, 0 otherwise.
 
 Example:
-`"Grape123"` → `"Grape###"`
-`"Apricot"` remains `"Apricot"`.
+file: 12 5 9 15 21 0 18 6 30 33 27 24
+4x4 matrix:
 
-It does not return anything.
+```
+12 15 21 18
+30 33 27 24
+-1 -1 -1 -1
+-1 -1 -1 -1
+```
 
----
+## A function that
 
-The `main` function that
-receives **exactly one** input parameter: the name of a text file.
-Otherwise, it prints
-`"ERROR 1: wrong number of parameters"`
-and terminates returning `1`.
+• receives as input a square matrix of integers of size C.
 
-It declares an array of **20 strings**, each with a **maximum length of 30** (constants).
+• Displays the matrix with row and column indices, as in the example, omitting the -1 values (replacing them with a space).
 
-It calls the function to load the array from the file.
-If the number of copied strings is `0`, it prints
-`"ERROR 2: no valid strings"`
-and terminates returning `2`.
+Example:
 
-It calls the function to display the array.
+```
+    0   1   2   3
+  +---------------
+0 | 12 15 21 18
+1 | 30 33 27 24
+2 |
+3 |
+```
 
-It asks the user to **"insert a character"** and calls the search function. Then it prints:
+• Returns nothing.
 
-* `"The character ... appears at an even position in the string with index ..."`
-* `"The character ... appears at an odd position in the string with index ..."`
+## A function that, using pointer arithmetic,
 
-or
+• receives as input a square matrix of integers of size C, an integer value k, and two pointers p1 and p2.
 
-* `"The character ... does not appear at even/odd positions"`
-  if the corresponding parameter is `-1`.
+• Scans the matrix **column by column** and stores in p1 the number of even values greater than k, and in p2 the number of odd values less than k.
 
-It calls the function to replace digits with `'#'`.
+• Returns nothing.
 
-It calls the display function again to show the modified array.
+Example:
+k = 20
+matrix as above → p1: 3 (12, 18, 24)  p2: 1 (15)
 
-It returns `0`.
+## A function that
+
+• receives as input a square matrix of integers of size C.
+
+• Returns 1 if the sum of the elements of each row is increasing with respect to the row index, 0 otherwise.
+
+Example:
+row 0: sum = 66
+row 1: sum = 114 → increasing → returns 1
+
+## The main function that
+
+• receives from the command line exactly two parameters:
+
+1. the name of a text file;
+2. an integer value k.
+
+• Otherwise, it displays “ERROR 1: incorrect number of parameters” and terminates returning 1.
+
+• Declares a square matrix of constant size 4.
+
+• Calls the loading function: if it fails, it displays “ERROR 2: the file does not exist” and terminates returning 2.
+
+• Calls the display function.
+
+• Calls the function that, using pointers, counts the values based on k, and displays:
+“Even greater than …: … – Odd less than …: …”.
+
+• Calls the function that checks the trend of the row sums, and displays:
+“The row sums are increasing” or “The row sums are not increasing”.
+
+• Returns 0.
 */
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 4
+
+int load_from_file(int m[][DIM], char *file_name)
+{
+  FILE *fp;
+  fp = fopen(file_name,"r");
+
+  if(fp == NULL) {
+    return 0; }
+
+  else {
+      int r,c,x;
+      r = 0;
+      c = 0;
+
+      while(fscanf(fp, "%d", &x) != EOF && r < DIM)
+      {
+        if(x > 10 && x%3 == 0) {
+          m[r][c] = x;
+          c++; }
+
+          if(c == DIM) {
+            c = 0;
+            r++; }
+      }
+      fclose(fp);
+
+      while(r < DIM)
+      {
+        m[r][c] = -1;
+          c++; 
+
+        if(c == DIM) {
+        c = 0;
+        r++;}
+      } 
+    }
+      
+    return 1;
+}
+
+void print_matrix(int m[][DIM])
+{
+  int r,c;
+
+  printf("\n\t");
+  for(c = 0; c < DIM; c++)
+  {
+    printf("%d\t",c);
+  }
+  printf("\n  +-------------------------------\n");
+
+  for(r = 0; r < DIM; r++)
+  {
+    printf("%d |\t",r);
+    for(c = 0; c < DIM; c++)
+    {
+      printf("%d\t",m[r][c]);
+    }
+    printf("\n");
+  }
+}
+
+int main(int argc, char *argv[])
+{
+  if(argc != 3) {
+    printf("ERROR 1: incorrect number of parameters");
+    exit(1); }
+
+  int m[DIM][DIM],res;
+
+  res = load_from_file(m,argv[1]);
+  if(res == 0) {
+    printf("ERROR 2: the file does not exist\n");
+    exit(2); }
+
+  print_matrix(m);
+
+  return 0;
+}
