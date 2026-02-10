@@ -11,29 +11,69 @@ Implement the following functions and a main program.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define R 5
+#define C 30
 
-int load_from_file()
+int load_from_file(char m[][C], char *file_name)
 {
-    int res;
+    int res,r,len,cond1,cond2;
+    char buffer[C];
+
+    FILE *fp;
+    fp = fopen(file_name, "r");
+
+    if(fp == NULL) {
+        res = 0; }
+
+    else {
+        r = 0;
+
+        while(fscanf(fp, "%s", buffer) != EOF && r < R)
+        {
+            len = strlen(buffer);
+            cond1 = ();
+            cond2 = ();
+
+            if(cond1 && cond2) {
+                strcpy(m[r],buffer);
+                r++; }
+        }
+
+    }
 
     return  res;
+}
+
+int print_matrix(char m[][C])
+{
+    //if file empty r
+
+    //else print
+}
+
+void char_finder()
+{
+    //find first and second occ. of a user entered char
+    //with pointer ar.
+}
+
+void right_circular_shift()
+{
+    //add circular shift
 }
 
 int main(int argc, char *argv[])
 {
     int n,x,lf;
+    char m[R][C];
 
-    if(argc != 3) {
+    if(argc != 2) {
         printf("Error 1: wrong number of argument\n");
         exit(1); }
-
-    if(atoi(argv[3]) == 0) {
-        printf("Error 2: non valid argument\n");
-        exit(2); }
     
-    
-    
-    lf = load_from_file();
+    lf = load_from_file(m,argv[1]);
 
     return 0;
 }
