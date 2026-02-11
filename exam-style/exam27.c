@@ -19,7 +19,7 @@ Implement the following functions and a main program.
 int load_from_file(char m[][C], char *file_name)
 {
     int res,r,len,cond1,cond2;
-    char buffer[C];
+    char buffer[C],c;
 
     FILE *fp;
     fp = fopen(file_name, "r");
@@ -33,14 +33,22 @@ int load_from_file(char m[][C], char *file_name)
         while(fscanf(fp, "%s", buffer) != EOF && r < R)
         {
             len = strlen(buffer);
-            cond1 = ();
-            cond2 = ();
+            cond1 = (isupper(buffer[0]) && isalpha(buffer[0]));
+            c = tolower(buffer[0]);
+            cond2 = (buffer[len-1] == c);
 
             if(cond1 && cond2) {
                 strcpy(m[r],buffer);
                 r++; }
         }
+        fclose(fp);
 
+        while(r < R)
+        {
+            m[r][0] = '\0';
+        }
+
+        res = 1;
     }
 
     return  res;
@@ -48,9 +56,22 @@ int load_from_file(char m[][C], char *file_name)
 
 int print_matrix(char m[][C])
 {
-    //if file empty r
+    int res,r,c,len;
 
-    //else print
+    if(m[0][0] == '\0') {
+        res = 1; }
+
+    else {
+        for(r = 0; m[r][0] != '\0'; r++)
+        {
+            len = strlen(m[r]);
+
+            for(c = 0; c < len; c++)
+            {
+                printf("%d)\t%s\n",r,m[r]);
+            }
+        }
+    }
 }
 
 void char_finder()
@@ -66,7 +87,7 @@ void right_circular_shift()
 
 int main(int argc, char *argv[])
 {
-    int n,x,lf;
+    int n,x,lf,pm;
     char m[R][C];
 
     if(argc != 2) {
@@ -74,6 +95,15 @@ int main(int argc, char *argv[])
         exit(1); }
     
     lf = load_from_file(m,argv[1]);
+    if(lf == 0) {
+        printf("Error 2: file not found\n");
+        exit(2); }
+
+    pm = print_matrix(m);
+    if(pm == 0) {
+        printf("Error 3: empty matrix\n");
+        exit(3); }
+
 
     return 0;
 }
