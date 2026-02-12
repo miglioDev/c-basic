@@ -46,6 +46,7 @@ int load_from_file(char m[][C], char *file_name)
         while(r < R)
         {
             m[r][0] = '\0';
+            r++;
         }
 
         res = 1;
@@ -56,7 +57,7 @@ int load_from_file(char m[][C], char *file_name)
 
 int print_matrix(char m[][C])
 {
-    int res,r,c,len;
+    int res,r;
 
     if(m[0][0] == '\0') {
         res = 1; }
@@ -64,20 +65,36 @@ int print_matrix(char m[][C])
     else {
         for(r = 0; m[r][0] != '\0'; r++)
         {
-            len = strlen(m[r]);
+            printf("%d)\t%s\n",r,m[r]);
+        }
 
-            for(c = 0; c < len; c++)
-            {
-                printf("%d)\t%s\n",r,m[r]);
+        res = 0;
+    }
+
+    return res;
+}
+
+void char_finder(char (*m)[C], char c, int *p1, int *p2)
+{
+    int r,j,len;
+    *p1 = -1;
+    *p2 = -1;
+    j = 0;
+
+    for(r = 0; *(*(m+r)+j) != '\0' && *p2 == -1; r++)
+    {
+        len = strlen((*m+j));
+
+        for(j = 0; j < len && *p2 == -1; j++)
+        {
+            if( *(*(m+r)+j) == c) {
+                if( *p1 == -1) {
+                *p1 =r; }
+                    else if( *p1 != -1 && *p2 == -1) {
+                    *p2 = r; }
             }
         }
     }
-}
-
-void char_finder()
-{
-    //find first and second occ. of a user entered char
-    //with pointer ar.
 }
 
 void right_circular_shift()
@@ -87,8 +104,8 @@ void right_circular_shift()
 
 int main(int argc, char *argv[])
 {
-    int n,x,lf,pm;
-    char m[R][C];
+    int lf,pm,first,second;
+    char m[R][C],cr;
 
     if(argc != 2) {
         printf("Error 1: wrong number of argument\n");
@@ -100,10 +117,20 @@ int main(int argc, char *argv[])
         exit(2); }
 
     pm = print_matrix(m);
-    if(pm == 0) {
+    if(pm == 1) {
         printf("Error 3: empty matrix\n");
         exit(3); }
 
+    printf("Enter a char: ");
+    scanf(" %c", &cr);
+
+    char_finder(m,cr,&first,&second);
+    if(first == -1 && second == -1) {
+    printf("Char %c not found\n",cr); }
+        else if(first != -1 && second == -1) {
+        printf("One result int row %d\n",first); }
+            else {
+                printf("Found %c in row: %d and row: %d\n",cr,first,second); }
 
     return 0;
 }
