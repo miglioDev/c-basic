@@ -3,7 +3,7 @@ EXAM 27 – Programming in C
 
 Implement the following functions and a main program.
 
-
+I will soon add the correct text
 1) add exam 27 
 
 
@@ -81,25 +81,40 @@ void char_finder(char (*m)[C], char c, int *p1, int *p2)
     *p2 = -1;
     j = 0;
 
-    for(r = 0; *(*(m+r)+j) != '\0' && *p2 == -1; r++)
+    for(r = 0; *(*(m+r)+0) != '\0' && *p2 == -1; r++)
     {
-        len = strlen((*m+j));
+        len = strlen((*m+r));
 
         for(j = 0; j < len && *p2 == -1; j++)
         {
             if( *(*(m+r)+j) == c) {
                 if( *p1 == -1) {
-                *p1 =r; }
-                    else if( *p1 != -1 && *p2 == -1) {
+                *p1 = r; }
+                    else if( *p1 != -1 && *p2 == -1 ) {
                     *p2 = r; }
             }
         }
     }
 }
 
-void right_circular_shift()
+void right_circular_shift(char m[][C])
 {
-    //add circular shift
+    int r = 0;
+    char buffer[C];
+
+    while(m[r][0] != '\0')
+    {
+        r++; 
+    }
+    r--;
+
+    strcpy(buffer,m[r]);
+
+    for(; r > 0; r--)
+    {
+        strcpy(m[r],m[r-1]);
+    }
+    strcpy(m[0],buffer);
 }
 
 int main(int argc, char *argv[])
@@ -129,8 +144,11 @@ int main(int argc, char *argv[])
     printf("Char %c not found\n",cr); }
         else if(first != -1 && second == -1) {
         printf("One result int row %d\n",first); }
-            else {
+            else if(first != -1 && second != -1) {
                 printf("Found %c in row: %d and row: %d\n",cr,first,second); }
+
+    right_circular_shift(m);
+    print_matrix(m);
 
     return 0;
 }
