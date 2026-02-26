@@ -7,8 +7,7 @@ I am solving programming exercises **inspired by** papers from previous academic
 Each exercise includes:
 - A problem statement (included as a comment at the top of the source file)
 - my complete and working solution
-- incremental commits showing the development process
-- possible corrections or refactoring commits after reviewing official or reference solution
+- incremental commits (development process)
 
 > ⚠️ Disclaimer  
 > These solutions are here for educational purposes only and are **not intended to be used for cheating or plagiarism** in ongoing or future exams.
