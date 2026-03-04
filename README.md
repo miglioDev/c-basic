@@ -31,7 +31,7 @@ structure:
 - File operations
 - Command-line arguments
 - Exam-style exercises
-- Dynamic_memory
+- Dynamic memory
 
 ## Structure
 Exercises are grouped by topic into folders.
