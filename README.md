@@ -32,6 +32,7 @@ structure:
 - Command-line arguments
 - Exam-style exercises
 - Dynamic memory
+- Struct
 
 ## Structure
 Exercises are grouped by topic into folders.
