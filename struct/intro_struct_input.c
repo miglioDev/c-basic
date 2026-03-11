@@ -23,4 +23,6 @@ int main ()
 
     printf("\nAge: ");
     scanf("%d", &p.age);
+
+    return 0;
 }
