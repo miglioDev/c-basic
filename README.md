@@ -33,6 +33,7 @@ structure:
 - Exam-style exercises
 - Dynamic memory
 - Struct
+- Linked Lists
 
 ## Structure
 Exercises are grouped by topic into folders.
