@@ -1,3 +1,4 @@
+// Here the aim is to insert a node before another one with a specific value 
 #include <stdio.h>
 #include <stdlib.h>
 
