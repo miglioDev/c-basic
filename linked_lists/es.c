@@ -61,9 +61,27 @@ void print_list(LINK h)
     }
 }
 
-void remove_first_node(LINK *h)
-{
+//add find prec
 
+void removex(LINK *lis, int x) {
+    LINK p, q;
+
+    if (*lis != NULL) {
+
+        if ((*lis)->data == x) {
+            p = *lis;
+            *lis = (*lis)->next;
+            free(p);
+        } 
+        else {
+
+            p = findpred(x, *lis);
+
+            if (p != NULL) {
+                q = p->next;             
+                p->next = q->next;       
+                free(q);                 
+            }
+        }
+    }
 }
-
-//add op fun
