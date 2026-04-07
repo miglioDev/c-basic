@@ -1,4 +1,4 @@
-//es.
+// Delete entire singly linked list by visiting and then freeing all nodes 
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +11,7 @@ typedef struct node *LINK;
 
 void append_node(LINK *h);
 void print_list(LINK h);
-void remove_first_node(LINK *h);
+void delete_list(LINK *lis);
 
 int main ()
 {
@@ -22,7 +22,7 @@ int main ()
 
     print_list(head);
 
-    remove_first_node(&head);
+    delete_list(&head);
     print_list(head);
 
     return 0;
@@ -61,27 +61,15 @@ void print_list(LINK h)
     }
 }
 
-//add find prec
+void delete_list(LINK *head) {
+    LINK p;
 
-void removex(LINK *lis, int x) {
-    LINK p, q;
-
-    if (*lis != NULL) {
-
-        if ((*lis)->data == x) {
-            p = *lis;
-            *lis = (*lis)->next;
-            free(p);
-        } 
-        else {
-
-            p = findpred(x, *lis);
-
-            if (p != NULL) {
-                q = p->next;             
-                p->next = q->next;       
-                free(q);                 
-            }
-        }
+    while( *head != NULL)
+    {
+        p = *head;
+        *head = p->next;
+        free(p);
     }
+    
+    printf("\nList deleted\n");
 }
