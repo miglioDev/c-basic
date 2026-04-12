@@ -10,9 +10,8 @@ typedef struct node{
 
 typedef struct node *LINK;
 void push_node(LINK *h);
-void append_node(LINK *head,int x);
 void print_list(LINK h);
-LINK copy_even(LINK *h);
+LINK copy_even(LINK h);
 
 int main ()
 {
@@ -25,7 +24,7 @@ int main ()
     }
 
     print_list(head);
-    even_list = copy_even(&head);
+    even_list = copy_even(head);
     print_list(even_list);   
 
     return 0;
@@ -54,44 +53,36 @@ void print_list(LINK h)
     }
 }
 
-void append_node(LINK *head, int x)
-{
-    LINK new, current;
-    new = malloc(sizeof(*new));
-    if(new == NULL) {
-        printf("Error: memory fail\n");
-        exit(EXIT_FAILURE); }
-
-
-    new->next = NULL;
-    new->data = x;
-    if(*head == NULL) {
-        *head = new;
-        return; }
-
-    current = *head;
-    while(current->next != NULL)
-    {
-        current = current->next;
-    }
-
-    current->next = new;
-}
-
-LINK copy_even(LINK *h)
+LINK copy_even(LINK l)
 { 
-    LINK q,lis_even;
-    lis_even = NULL;
-    q = *h;
+    LINK p, HEAD, TAIL;
+    HEAD = NULL;
 
-    while(q != NULL)
+    while(l != NULL)
     {
-        if(q->data%2 == 0) {
-            append_node(&lis_even,q->data); }
-        q = q->next;
+        if(l->data%2 == 0) {
+            
+        p = malloc(sizeof(*p));
+        if(p == NULL) {
+            printf("Error: memory fail\n");
+            exit(EXIT_FAILURE); }
+
+            p->data = l->data;
+            p->next = NULL; 
+
+            if(HEAD == NULL) {
+                HEAD = p;
+                TAIL = p; }
+
+            else {
+                TAIL->next = p;
+                TAIL = p; } 
+            }
+
+        l = l->next;
     }
 
     printf("\n== New list with even only node ==\n");
 
-    return lis_even;
+    return HEAD;
 }
