@@ -34,6 +34,7 @@ structure:
 - Dynamic memory
 - Struct
 - Linked Lists
+- Recursion
 
 ## Structure
 Exercises are grouped by topic into folders.
