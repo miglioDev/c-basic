@@ -1,4 +1,6 @@
 // Implements insertion of a new node at a specific position in a singly linked list
+#include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 
 typedef struct node{
