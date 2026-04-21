@@ -7,7 +7,7 @@ int main ()
 {
     int res,x,y;
 
-    printf("\n== Sum recursive ==\n");
+    printf("\n== recursive division ==\n");
     printf("\nEnter x: ");
     scanf("%d",&x);
 
