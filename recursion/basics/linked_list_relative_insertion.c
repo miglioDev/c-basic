@@ -1,4 +1,5 @@
-//
+// Recursively build and print a linked list of people
+// then insert a new relative after a matching surname
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
