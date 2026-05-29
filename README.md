@@ -35,6 +35,7 @@ structure:
 - Struct
 - Linked Lists
 - Recursion
+- Stacks and Queues
 
 ## Structure
 Exercises are grouped by topic into folders.
