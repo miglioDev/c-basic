@@ -14,6 +14,7 @@ typedef struct Stack{
 } stack;
 
 void clear(stack *stk);
+int is_empty(stack *stk);
 
 int main()
 {
@@ -27,4 +28,8 @@ int main()
 
 void clear(stack *stk) {
     stk->top = EMPTY;
+}
+
+int is_empty(stack *stk) {
+    return(stk->top == EMPTY);
 }
