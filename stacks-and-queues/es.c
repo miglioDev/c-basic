@@ -6,7 +6,7 @@ typedef int DATA;
 
 #define MAXLEN 100
 #define EMPTY  -1
-#define FULL   MAXLEN-1;
+#define FULL MAXLEN-1;
 
 typedef struct Stack{
     DATA a[MAXLEN];
@@ -15,6 +15,7 @@ typedef struct Stack{
 
 void clear(stack *stk);
 int is_empty(stack *stk);
+int is_full(stack *stk);
 
 int main()
 {
@@ -32,4 +33,8 @@ void clear(stack *stk) {
 
 int is_empty(stack *stk) {
     return(stk->top == EMPTY);
+}
+
+int is_full(stack *stk) {
+    return(stk->top == FULL);
 }
