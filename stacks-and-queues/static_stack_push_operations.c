@@ -1,4 +1,5 @@
-//
+// Implement the basic operations of a static stack using an array, 
+// initialization, full/empty checks, and push insertion
 #include <stdio.h>
 #include <stdlib.h>
 
