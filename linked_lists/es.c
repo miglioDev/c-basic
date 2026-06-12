@@ -61,3 +61,9 @@ void append_node(LINK *head, int x)
 
     current->next = p;
 }
+
+void function()
+{
+    //work
+    
+}
