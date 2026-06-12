@@ -16,7 +16,10 @@ int main ()
 {
     LINK head = NULL;
 
-
+    push_node(&head,10);
+    push_node(&head,50);
+    append_node(&head,20);
+    append_node(&head,30);
 
     return 0;
 }
