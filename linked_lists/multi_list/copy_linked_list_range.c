@@ -1,3 +1,4 @@
+// Copies the nodes between positions n and m (inclusive) from a linked list into a new list
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,18 +14,19 @@ LINK new_node();
 void push_node(LINK *lis, int x);
 void append_node(LINK *lis_head, int x);
 void print_list(LINK lis);
+LINK copy_from_n_to_m(LINK lis, int n, int m);
 
 int main()
 {
-    int i,n,x;
+    int i,dim,x,n,m;
     LINK head_lis1 = NULL;
     LINK head_lis2 = NULL;
     srand(time(NULL));
 
     printf("Enter lis1 dimension: ");
-    scanf("%d",&n);
+    scanf("%d",&dim);
 
-    for(i = 0; i < n; i++)
+    for(i = 0; i < dim; i++)
     {
         x = rand()%100;
         push_node(&head_lis1,x);
@@ -32,6 +34,13 @@ int main()
 
     printf("\nOriginal List:\n");
     print_list(head_lis1);
+
+    printf("\nNow enter two number n and m: ");
+    scanf("%d %d",&n,&m);
+
+    head_lis2 = copy_from_n_to_m(head_lis1,n,m);
+    printf("\nElements copied list:\n");
+    print_list(head_lis2);
 
     return 0;
 }
@@ -83,10 +92,41 @@ void print_list(LINK lis)
         printf("%d ->",lis->data);
         lis = lis->next;
     }
-    printf("NULL\n");
+    printf(" NULL\n");
 }
 
-LINK copy_from_n_to_m()
+LINK copy_from_n_to_m(LINK lis, int n, int m)
 {
-    //given two number n and m copy the elements from n to m in the original list in a new list
+    LINK head,tail,p;
+    head = NULL;
+    tail = NULL;
+    int i;
+
+    for(i = 1; i < n && lis != NULL; i++)
+    {
+        lis = lis->next;
+    }
+
+    if(lis == NULL) {
+        return NULL; }
+
+    while(lis != NULL && n <= m)
+    {
+        p = new_node();
+        p->data = lis->data;
+        p->next = NULL;
+
+        if(head == NULL) {
+            head = p;
+            tail = p; }
+        else {
+            tail->next = p;
+            tail = p;
+        }
+
+        lis = lis->next;
+        n++;
+    }
+
+    return head;
 }
