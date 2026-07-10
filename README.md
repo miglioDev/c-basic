@@ -13,29 +13,29 @@ language.
 Each file contains a small, self-contained C programming exercise.
 
 ## Study Topics
-The repository follows my study progression and mirrors the folder
-structure:
+The topics below are listed in the order in which I studied them, not in the repository's folder order.
 
 - Variables and basic data types
 - Selection statements and comparison operators
 - Logical operators
 - Loops (while, for, do-while)
 - Functions
-- Functions and pointers
+- Pointers and functions
 - Arrays
 - Matrices
 - Strings
 - Arrays of strings
 - Pointer arithmetic
 - Extended integer and floating-point types
-- File operations
+- File I/O
 - Command-line arguments
 - Exam-style exercises
-- Dynamic memory
-- Struct
+- Dynamic memory allocation
+- Structures
 - Linked Lists
 - Recursion
 - Stacks and Queues
+- Advanced exam style
 
 ## Structure
 Exercises are grouped by topic into folders.
