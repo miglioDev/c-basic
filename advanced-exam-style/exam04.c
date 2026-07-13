@@ -42,10 +42,12 @@ typedef struct node{
 typedef struct node *LINK;
 
 LINK new_node();
-void append_node(LINK *head, int x);
 LINK read_list_from_file(FILE *fp);
 void print_list(LINK lis);
 int fibonacci_smallest(LINK lis);
+LINK filter_even_rec(LINK head);
+void write_on_file(LINK lis);
+void free_all_list(LINK *lis1, LINK *lis2);
 
 int main()
 {
@@ -56,10 +58,19 @@ int main()
 	}
 	
 	LINK head = read_list_from_file(fp);
+	fclose(fp);
 	print_list(head);
 
 	int fib = fibonacci_smallest(head);
 	printf("\nFibonacci = %d\n",fib);
+	
+	printf("\nEven list:\n");
+	LINK even_list = filter_even_rec(head);
+	print_list(even_list);
+	
+	write_on_file(even_list);
+	
+	free_all_list(&head,&even_list);
 	
 	return 0;
 }
@@ -71,30 +82,9 @@ LINK new_node()
 	if(p == NULL) {
 		printf("Error: memory allocation failed\n");
 		exit(EXIT_FAILURE);
-		return p;
 	}
 	return p;
 } 
- 
-void append_node(LINK *head, int x)
-{
-	LINK p = new_node();
-	p->next = NULL;
-	p->d = x;
-	
-	if(*head == NULL) {
-		*head = p;
-		return;
-	}
-	else {
-		LINK q = *head;
-		while(q->next != NULL) 
-		{
-			q = q->next;
-		}
-		q->next = p;
-	}
-}
  
 LINK read_list_from_file(FILE *fp)
 {
@@ -162,5 +152,57 @@ int fibonacci_smallest(LINK lis)
 	return fib;
 	}
 }
+ 
+LINK filter_even_rec(LINK head)
+{
+	LINK p;
+	
+	if(head == NULL) return NULL;
+	if(head->d%2 == 0) {
+		p = new_node();
+		p->d = head->d;
+		p->next = filter_even_rec(head->next);
+		return p;
+	}
+	else {
+		return filter_even_rec(head->next);
+	}
+}
+ 
+void write_on_file(LINK lis)
+{
+	FILE *fp = fopen("output.txt","w");
+	if(fp == NULL) {
+		printf("Error on file\n");
+		exit(EXIT_FAILURE);
+	}
+	
+	while(lis != NULL)
+	{
+		fprintf(fp,"%d ->",lis->d);
+		lis = lis->next;
+	}
+	fprintf(fp,"NULL\n");
+	
+	fclose(fp);
+}
 
-//work in progress
+
+void free_all_list(LINK *lis1, LINK *lis2)
+{
+	LINK p;
+	
+	while(*lis1 != NULL)
+	{
+		p = *lis1;
+		*lis1 = (*lis1)->next;
+		free(p);
+	}
+
+	while(*lis2 != NULL)
+	{
+		p = *lis2;
+		*lis2 = (*lis2)->next;
+		free(p);
+	}
+}
