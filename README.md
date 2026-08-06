@@ -13,36 +13,35 @@ language.
 Each file contains a small, self-contained C programming exercise.
 
 ## Study Topics
-The topics below are listed in the order in which I studied them, not in the repository's folder order.
 
-- Variables and basic data types
-- Selection statements and comparison operators
-- Logical operators
-- Loops (while, for, do-while)
+The repository is organized by topic. Most topics correspond directly to a folder in the repository.
+
+- Fundamentals
+  - Variables and basic data types
+  - Selection statements (`if`, `switch`)
+  - Comparison and logical operators
+  - Loops (`while`, `for`, `do-while`)
 - Functions
-- Pointers and functions
 - Arrays
 - Matrices
 - Strings
-- Arrays of strings
-- Pointer arithmetic
-- Extended integer and floating-point types
-- File I/O
-- Command-line arguments
-- Exam-style exercises
-- Dynamic memory allocation
+- Pointer Arithmetic
+- Integer Types and Type Conversions
+- File I/O Exercises
+- Command-Line Arguments
+- Exam-Style Exercises
+- Dynamic Memory
 - Structures
 - Linked Lists
 - Recursion
 - Stacks and Queues
-- Advanced exam style
+- Advanced Exam Style
 
-## Structure
-Exercises are grouped by topic into folders.
-Each `.c` file typically includes:
-- a short description of the exercise
-- clear, readable code
-- a straightforward implementation
+## Repository Structure
+
+Each topic is organized into its own folder.
+
+Each program is a self-contained exercise focused on a specific C programming concept.
 
 ## How to Run
 To compile and run any program:
