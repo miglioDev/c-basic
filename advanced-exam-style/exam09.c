@@ -19,10 +19,19 @@ typedef struct node *LINK;
 
 LINK new_node();
 LINK create_listfrom_file(char filename[]);
+void print_list(LINK lis);
 
 int main()
 {
+	int thr;
+	
 	LINK head = create_listfrom_file("text.txt");
+	
+	printf("Loaded list:\n");
+	print_list(head);
+	
+	printf("\n\nPick a threshold value: ");
+	scanf("%d",&thr);
 
 	return 0;
 }
@@ -72,3 +81,17 @@ LINK create_listfrom_file(char filename[])
 	
 	return head;
 }
+
+void print_list(LINK lis)
+{
+	if(lis == NULL) {
+		printf("NULL\n");
+		return;
+	}
+	else {
+		printf("---------------\n");
+		printf("\nName: %s",lis->d.name);
+		printf("\nAge: %d",lis->d.age);
+	}
+}
+
