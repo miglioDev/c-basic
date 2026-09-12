@@ -35,13 +35,15 @@ The repository is organized by topic. Most topics correspond directly to a folde
 - Linked Lists
 - Recursion
 - Stacks and Queues
-- Advanced Exam Style
+- Exam Style 01
 
 ## Repository Structure
 
 Each topic is organized into its own folder.
 
 Each program is a self-contained exercise focused on a specific C programming concept.
+
+The exam style folders contain review & practice covering all previous sections up to this folder
 
 ## How to Run
 To compile and run any program:
