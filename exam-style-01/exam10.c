@@ -17,6 +17,7 @@ typedef struct node {
 typedef node *LINK;
 
 LINK create_node(char name[DIM], int age);
+LINK push_node(LINK head, char name[DIM], int age);
 
 int main()
 {
@@ -37,6 +38,18 @@ LINK create_node(char name[DIM], int age)
     strcpy(n->d.name,name);
     n->d.age = age; 
     n->next = NULL;
+
+    return n;
+}
+
+LINK push_node(LINK head, char name[DIM], int age)
+{
+    LINK n = create_node(name,age);
+    if(n == NULL) {
+        return n;
+    }
+
+    n->next = head;
 
     return n;
 }
