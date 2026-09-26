@@ -19,9 +19,19 @@ typedef node *LINK;
 LINK create_node(char name[DIM], int age);
 LINK push_node(LINK head, char name[DIM], int age);
 
-int main()
+int main(int argc, char *argv[])
 {
+    if(argc != 2) {
+        printf("Error: argument number");
+        exit(EXIT_FAILURE);
+    }
+    FILE *fp = fopen("r",argv[1]);
+    if(fp == NULL) {
+        printf("Error: unable to read file");
+        exit(EXIT_FAILURE);
+    }
 
+    
 
     return 0;
 }
